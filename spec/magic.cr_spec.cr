@@ -54,7 +54,7 @@ describe Magic do
     describe ".options" do
       it "can be set directly" do
         chkr = Magic::TypeChecker.new
-        chkr.options.should eq Magic::TypeChecker::DefaultOptions
+        chkr.options.should eq Magic::TypeChecker::DEFAULT_OPTIONS
         chkr.options = 1
         chkr.options.should eq Magic::LibMagic::DEBUG
       end
@@ -190,8 +190,8 @@ describe Magic do
       end
       describe "#reset_options" do
         chkr = Magic::TypeChecker.new
-        chkr.debug_output.options.should eq (Magic::TypeChecker::DefaultOptions | Magic::LibMagic::DEBUG)
-        chkr.reset_options.options.should eq Magic::TypeChecker::DefaultOptions
+        chkr.debug_output.options.should eq (Magic::TypeChecker::DEFAULT_OPTIONS | Magic::LibMagic::DEBUG)
+        chkr.reset_options.options.should eq Magic::TypeChecker::DEFAULT_OPTIONS
       end
     end
   end

@@ -54,7 +54,7 @@ module Magic
     getter db_files : Set(String)?
 
     Integer        = Int8 | Int16 | Int32 | Int64 | UInt8 | UInt16 | UInt32 | UInt64
-    DefaultOptions = LibMagic::RAW | LibMagic::ERROR
+    DEFAULT_OPTIONS = LibMagic::RAW | LibMagic::ERROR
     # the current options used by the lib
     @options : Int32
     # new options that have been set but may not have been passed to the
@@ -62,9 +62,9 @@ module Magic
     @new_options : Int32
     @checker : LibMagic::MagicT
 
-    private alias IterableOfStrings = Indexable(String) | Set(String)
+    alias IterableOfStrings = Indexable(String) | Set(String)
 
-    def initialize(@options = DefaultOptions,
+    def initialize(@options = DEFAULT_OPTIONS,
                    database_files : IterableOfStrings? = nil,
                    limit_settings : Hash(Limit, Int32)? = nil)
       @checker = LibMagic.open @options
@@ -233,12 +233,12 @@ module Magic
 
     # reset any options set on this instance back to the magic.cr default.
     def reset_options
-      @new_options = DefaultOptions
+      @new_options = DEFAULT_OPTIONS
       self
     end
 
     def default_options?
-      @new_options == DefaultOptions
+      @new_options == DEFAULT_OPTIONS
     end
 
     # use the MAGIC_NONE option (the default for libmagic) instead of the
