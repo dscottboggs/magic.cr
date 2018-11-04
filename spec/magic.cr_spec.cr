@@ -6,25 +6,35 @@ TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.
 JpegExtensions = Set{"jpeg", "jpg", "jpe", "jfif"}
 
 describe Magic do
-  describe "Magic.filetype_of()" do
+  describe "Magic.filetype.of()" do
     it "works as expected" do
-      Magic.filetype_of(TestPictureFile).includes?("JPEG image data").should be_true
+      Magic.filetype.of(TestPictureFile).includes?("JPEG image data").should be_true
     end
   end
-  describe "Magic.mime_type_of()" do
+  describe "Magic.mime_type.of()" do
     it "works as expected" do
-      Magic.mime_type_of(TestPictureFile).should eq "image/jpeg"
+      Magic.mime_type.of(TestPictureFile).should eq "image/jpeg"
     end
   end
-  describe "Magic.valid_extensions_for()" do
+  describe "Magic.filetype.extensions()" do
     it "works as expected" do
-      Magic.valid_extensions_for(TestPictureFile).should eq JpegExtensions
+      Magic.filetype.extensions(TestPictureFile).should eq JpegExtensions
     end
   end
 
-  describe "Magic.mime_type_of(IO)" do
-    HTTP::Client.get TestImageURL do |result|
-      Magic.valid_extensions_for(result.body_io).should eq JpegExtensions
+  describe "Magic.mime_type.of(IO)" do
+    it "works as expected" do
+      HTTP::Client.get TestImageURL do |result|
+        Magic.filetype.extensions(result.body_io).should eq JpegExtensions
+      end
+    end
+  end
+
+  describe "Magic.mime_type.follow_symlinks.of(a symlink)" do
+    symlink_path = "/dev/disk/by-uuid/#{Dir.open("/dev/disk/by-uuid").children.first}"
+    it "works as expected" do
+      test_result = Magic.mime_type.follow_symlinks.of symlink_path
+      test_result.should eq "inode/blockdevice"
     end
   end
 
@@ -121,7 +131,7 @@ describe Magic do
       describe "#all_types" do
         it "works" do
           test_sh_file do |file|
-            Magic::TypeChecker.new.all_types.of(file).should eq "ASCII text\n- data"
+            Magic::TypeChecker.new.all_types.of(file).starts_with?("ASCII text\n-").should be_true
           end
         end
       end
@@ -136,15 +146,16 @@ describe Magic do
         end
       end
 
-      describe "#extensions" do
+      describe "#get_extensions" do
         it "gives the right extension" do
-          ft = Magic::TypeChecker.new.extensions.of(File.open TestPictureFile)
+          ft = Magic::TypeChecker.new.get_extensions.of(File.open TestPictureFile)
           ft.includes?("jpg").should be_true
+          ft.includes?("/").should be_true
           ft.should be_a String
         end
         it "doesn't work on plaintext files" do
           test_sh_file do |file|
-            Magic::TypeChecker.new.extensions.of(file).should eq "???"
+            Magic::TypeChecker.new.get_extensions.of(file).should eq "???"
           end
         end
       end
@@ -181,12 +192,6 @@ describe Magic do
         chkr = Magic::TypeChecker.new
         chkr.debug_output.options.should eq (Magic::TypeChecker::DefaultOptions | Magic::LibMagic::DEBUG)
         chkr.reset_options.options.should eq Magic::TypeChecker::DefaultOptions
-      end
-    end
-    describe ".valid_extensions_for" do
-      it "gives the right extension" do
-        extensions = Magic.valid_extensions_for this: TestPictureFile
-        extensions.should eq Set{"jpeg", "jpg", "jpe", "jfif"}
       end
     end
   end

@@ -181,20 +181,37 @@ module Magic
       of?(file) || raise error "checking filetype of file #{file}"
     end
 
-    def of(file_descriptor : Int32)
-      of?(file_descriptor) || raise error "checking filetype of file ##{file_descriptor}"
+    def of(this : Int32)
+      of?(this) || raise error "checking filetype of file ##{this}"
     end
 
     # Get the filetype "of" the given bytes. Raises Errno if there's an error
     # from libmagic instead of returning nil.
-    def of(bytes : IO)
-      some_bytes = bytes.peek
+    def of(this : IO)
+      some_bytes = this.peek
       if (some_bytes.nil? || some_bytes.empty?)
-        bytes.read (some_bytes = Bytes.new(32))
+        this.read (some_bytes = Bytes.new(32))
       end
       raise ::Errno.new "reading bytes, got #{some_bytes.inspect}" if some_bytes.nil? || some_bytes.empty?
       ptr = LibMagic.buffer(checker, some_bytes, some_bytes.size)
       String.new ptr || raise error "checking filetype of given byte sequence"
+    end
+
+    # same as `#of()`
+    def for(this)
+      of this
+    end
+
+    def extensions(this)
+      result = [] of String
+      if get_extensions?
+        result = of(this).split "/"
+      else
+        get_extensions
+        result = of(this).split "/"
+        get_extensions = false
+      end
+      result.to_set
     end
 
     # Directly set the options parameter. This overrides all other options (like
@@ -359,9 +376,9 @@ module Magic
       LibMagic::APPLE,
       :"Return the Apple creator and type.")
     bitflag_option(
-      :extensions,
+      :get_extensions,
       LibMagic::EXTENSION,
-      :"Return a slash-separated list of extensions for this file type.")
+      :"Makes #of() return a slash-separated list of extensions for this file type.")
     bitflag_option(
       :no_compression_info,
       LibMagic::COMPRESS_TRANSP,

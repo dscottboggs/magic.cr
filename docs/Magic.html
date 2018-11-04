@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.26.1">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -96,35 +96,35 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/libmagic/regex.cr#L1" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/libmagic/regex.cr#L1" target="_blank">
         libmagic/regex.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/libmagic/file.cr#L3" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/libmagic/file.cr#L3" target="_blank">
         libmagic/file.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/libmagic/magic.cr#L3" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/libmagic/magic.cr#L3" target="_blank">
         libmagic/magic.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L5" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L5" target="_blank">
         type_checker.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/magic.cr#L5" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/magic.cr#L5" target="_blank">
         magic.cr
       </a>
     
@@ -155,23 +155,16 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#filetype_of%28this%29-instance-method" class="signature"><strong>#filetype_of</strong>(this)</a>
+        <a href="#filetype-instance-method" class="signature"><strong>#filetype</strong></a>
         
           <div class="summary"><p>Get the filetype of the given File object, filepath, file descriptor, or byte stream (IO) as a plain, human-readable string.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#mime_type_of%28this%29-instance-method" class="signature"><strong>#mime_type_of</strong>(this)</a>
+        <a href="#mime_type-instance-method" class="signature"><strong>#mime_type</strong></a>
         
           <div class="summary"><p>Get the mime-type of the given File object, filepath, file descriptor, or byte stream (IO).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#valid_extensions_for%28this%29%3ASet%28String%29-instance-method" class="signature"><strong>#valid_extensions_for</strong>(this) : Set(String)</a>
-        
-          <div class="summary"><p>Get the set of valid extensions for the given File object, filepath, file descriptor, or byte stream (IO).</p></div>
         
       </li>
     
@@ -192,12 +185,12 @@
 
   <h2>Instance Method Detail</h2>
   
-    <div class="entry-detail" id="filetype_of(this)-instance-method">
+    <div class="entry-detail" id="filetype-instance-method">
       <div class="signature">
         
-        def <strong>filetype_of</strong>(this)
+        def <strong>filetype</strong>
 
-        <a class="method-permalink" href="#filetype_of%28this%29-instance-method">#</a>
+        <a class="method-permalink" href="#filetype-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Get the filetype of the given File object, filepath, file descriptor, or
@@ -206,17 +199,17 @@ byte stream (IO) as a plain, human-readable string.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/magic.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/magic.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="mime_type_of(this)-instance-method">
+    <div class="entry-detail" id="mime_type-instance-method">
       <div class="signature">
         
-        def <strong>mime_type_of</strong>(this)
+        def <strong>mime_type</strong>
 
-        <a class="method-permalink" href="#mime_type_of%28this%29-instance-method">#</a>
+        <a class="method-permalink" href="#mime_type-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Get the mime-type of the given File object, filepath, file descriptor, or
@@ -226,26 +219,7 @@ filetypes of several files.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/magic.cr#L23" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="valid_extensions_for(this):Set(String)-instance-method">
-      <div class="signature">
-        
-        def <strong>valid_extensions_for</strong>(this) : Set(String)
-
-        <a class="method-permalink" href="#valid_extensions_for%28this%29%3ASet%28String%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Get the set of valid extensions for the given File object, filepath,
-file descriptor, or byte stream (IO).</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/magic.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/magic.cr#L20" target="_blank">View source</a>]
         
       </div>
     </div>

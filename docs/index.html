@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.26.1">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -77,23 +77,35 @@
 
 <h2>Usage</h2>
 
+<p><a href="https://dscottboggs.github.io/magic.cr/index.html" target="_blank">API documentation</a></p>
+
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;magic.cr&quot;</span>
 <span class="k">require</span> <span class="s">&quot;http&quot;</span> <span class="c"># for the HTTP example</span>
 
 <span class="t">TestImageURL</span> <span class="o">=</span> <span class="s">&quot;https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg&quot;</span>
 
 <span class="c"># get a description of the contents of the file at a path.</span>
-<span class="t">Magic</span>.filetype_of <span class="s">&quot;/path/to/a/video.mkv&quot;</span> <span class="c"># =&gt; &quot;Matroska data&quot;</span>
+<span class="t">Magic</span>.filetype.<span class="k">of</span> <span class="s">&quot;/path/to/a/video.mkv&quot;</span> <span class="c"># =&gt; &quot;Matroska data&quot;</span>
 
 <span class="c"># open your bashrc and check its mime type</span>
 <span class="t">File</span>.open <span class="s">&quot;~/.bashrc&quot;</span> <span class="k">do</span> <span class="o">|</span>bashrc<span class="o">|</span>
-    <span class="t">Magic</span>.mime_type_of bashrc <span class="c"># =&gt; &quot;text/plain&quot;</span>
+  <span class="t">Magic</span>.mime_type.<span class="k">of</span> bashrc <span class="c"># =&gt; &quot;text/plain&quot;</span>
 <span class="k">end</span>
 
 <span class="c"># pull TestImageURL from the web and find out what the valid extensions are for</span>
 <span class="c"># the bytes received.</span>
 <span class="t">HTTP</span><span class="t">::</span><span class="t">Client</span>.get <span class="t">TestImageURL</span> <span class="k">do</span> <span class="o">|</span>result<span class="o">|</span>
-  <span class="t">Magic</span>.valid_extensions_for result.body_io <span class="c"># =&gt; Set{&quot;jpeg&quot;, &quot;jpg&quot;, &quot;jpe&quot;, &quot;jfif&quot;}</span>
+  <span class="t">Magic</span>.filetype.extensions result.body_io <span class="c"># =&gt; Set{&quot;jpeg&quot;, &quot;jpg&quot;, &quot;jpe&quot;, &quot;jfif&quot;}</span>
+<span class="k">end</span>
+
+<span class="c"># change a setting and check a filetype</span>
+dir <span class="o">=</span> <span class="t">Dir</span>.open <span class="s">&quot;/dev/disk/by-uuid&quot;</span>
+dir.each_child <span class="k">do</span> <span class="o">|</span>symlink<span class="o">|</span>
+  <span class="t">Magic</span>.filetype.<span class="k">of</span> symlink <span class="c"># =&gt; &quot;symlink to /dev/sdXX&quot;</span>
+<span class="k">end</span>
+
+dir.each_child <span class="k">do</span> <span class="o">|</span>symlink<span class="o">|</span>
+  <span class="t">Magic</span>.filetype.follow_symlinks.<span class="k">for</span> symlink <span class="c"># =&gt; &quot;block special...&quot;</span>
 <span class="k">end</span></code></pre>
 
 <p>There is also a much more flexible and complicated API for more advanced usage.

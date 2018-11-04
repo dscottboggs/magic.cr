@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.26.1">
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css">
@@ -128,7 +128,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L52" target="_blank">
+      <a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L52" target="_blank">
         type_checker.cr
       </a>
     
@@ -307,19 +307,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       </li>
     
       <li class="entry-summary">
-        <a href="#extensions-instance-method" class="signature"><strong>#extensions</strong></a>
-        
-          <div class="summary"><p>Return a slash-separated list of extensions for this file type.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#extensions%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#extensions=</strong>(setting : Bool)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#extensions%3F-instance-method" class="signature"><strong>#extensions?</strong></a>
+        <a href="#extensions%28this%29-instance-method" class="signature"><strong>#extensions</strong>(this)</a>
         
       </li>
     
@@ -337,6 +325,30 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
     
       <li class="entry-summary">
         <a href="#follow_symlinks%3F-instance-method" class="signature"><strong>#follow_symlinks?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#for%28this%29-instance-method" class="signature"><strong>#for</strong>(this)</a>
+        
+          <div class="summary"><p>same as <code><a href="../Magic/TypeChecker.html#of%28file%3AFile%29-instance-method">#of</a>()</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_extensions-instance-method" class="signature"><strong>#get_extensions</strong></a>
+        
+          <div class="summary"><p>Makes #of() return a slash-separated list of extensions for this file type.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_extensions%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#get_extensions=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_extensions%3F-instance-method" class="signature"><strong>#get_extensions?</strong></a>
         
       </li>
     
@@ -578,12 +590,12 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       </li>
     
       <li class="entry-summary">
-        <a href="#of%28file_descriptor%3AInt32%29-instance-method" class="signature"><strong>#of</strong>(file_descriptor : Int32)</a>
+        <a href="#of%28this%3AInt32%29-instance-method" class="signature"><strong>#of</strong>(this : Int32)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#of%28bytes%3AIO%29-instance-method" class="signature"><strong>#of</strong>(bytes : IO)</a>
+        <a href="#of%28this%3AIO%29-instance-method" class="signature"><strong>#of</strong>(this : IO)</a>
         
           <div class="summary"><p>Get the filetype "of" the given bytes.</p></div>
         
@@ -760,7 +772,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L67" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L67" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -785,7 +797,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L356" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -801,7 +813,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L356" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -817,7 +829,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L356" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -835,7 +847,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L374" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -851,7 +863,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L374" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -867,7 +879,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L374" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -885,7 +897,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -901,7 +913,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -917,7 +929,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -935,7 +947,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L339" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -951,7 +963,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L339" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -967,7 +979,7 @@ mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span cla
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L339" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -987,7 +999,7 @@ MagicT is a null pointer, this will raise Errno.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1005,7 +1017,7 @@ MagicT is a null pointer, this will raise Errno.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L54" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1031,7 +1043,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L122" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L122" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1049,7 +1061,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1065,7 +1077,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1081,7 +1093,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1097,7 +1109,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L220" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L240" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1113,7 +1125,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L137" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L137" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1131,7 +1143,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1147,7 +1159,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1163,57 +1175,23 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="extensions-instance-method">
+    <div class="entry-detail" id="extensions(this)-instance-method">
       <div class="signature">
         
-        def <strong>extensions</strong>
+        def <strong>extensions</strong>(this)
 
-        <a class="method-permalink" href="#extensions-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Return a slash-separated list of extensions for this file type.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="extensions=(setting:Bool)-instance-method">
-      <div class="signature">
-        
-        def <strong>extensions=</strong>(setting : Bool)
-
-        <a class="method-permalink" href="#extensions%3D%28setting%3ABool%29-instance-method">#</a>
+        <a class="method-permalink" href="#extensions%28this%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="extensions?-instance-method">
-      <div class="signature">
-        
-        def <strong>extensions?</strong>
-
-        <a class="method-permalink" href="#extensions%3F-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L205" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1231,7 +1209,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L331" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1247,7 +1225,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L331" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1263,7 +1241,75 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L331" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="for(this)-instance-method">
+      <div class="signature">
+        
+        def <strong>for</strong>(this)
+
+        <a class="method-permalink" href="#for%28this%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>same as <code><a href="../Magic/TypeChecker.html#of%28file%3AFile%29-instance-method">#of</a>()</code></p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L201" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_extensions-instance-method">
+      <div class="signature">
+        
+        def <strong>get_extensions</strong>
+
+        <a class="method-permalink" href="#get_extensions-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Makes #of() return a slash-separated list of extensions for this file type.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L378" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_extensions=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_extensions=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#get_extensions%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L378" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_extensions?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_extensions?</strong>
+
+        <a class="method-permalink" href="#get_extensions%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L378" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1281,7 +1327,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1297,7 +1343,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1313,7 +1359,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1331,7 +1377,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L344" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1347,7 +1393,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L344" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1363,7 +1409,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L344" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1381,7 +1427,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L352" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1397,7 +1443,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L352" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1413,7 +1459,7 @@ check_ft.database <span class="o">=</span> <span class="n">:default</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L352" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1432,7 +1478,7 @@ default for magic.cr</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L226" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L246" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1448,7 +1494,7 @@ default for magic.cr</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L231" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L251" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1466,7 +1512,7 @@ default for magic.cr</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L335" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1482,7 +1528,7 @@ default for magic.cr</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L335" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1498,7 +1544,7 @@ default for magic.cr</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L335" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1524,7 +1570,7 @@ ft_checker.max_bytes <span class="k">do</span> <span class="o">|</span>current<s
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L458" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1546,7 +1592,7 @@ PARAM_BYTES_MAX constant. See <code>libmagic(2)</code>.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L458" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1567,7 +1613,7 @@ given value. See <code>libmagic(2)</code>. </p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L458" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1590,7 +1636,7 @@ Controls how many ELF notes will be processed.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L448" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1616,7 +1662,7 @@ ft_checker.max_elf_notes <span class="k">do</span> <span class="o">|</span>curre
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L448" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1637,7 +1683,7 @@ given value. See <code>libmagic(2)</code>. Controls how many ELF notes will be p
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L448" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1660,7 +1706,7 @@ Controls how many ELF program sections will be processed.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L451" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1686,7 +1732,7 @@ ft_checker.max_elf_phnum <span class="k">do</span> <span class="o">|</span>curre
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L451" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1707,7 +1753,7 @@ given value. See <code>libmagic(2)</code>. Controls how many ELF program section
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L451" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1730,7 +1776,7 @@ Controls how many ELF sections will be processed.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L454" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1756,7 +1802,7 @@ ft_checker.max_elf_shnum <span class="k">do</span> <span class="o">|</span>curre
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L454" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1777,7 +1823,7 @@ given value. See <code>libmagic(2)</code>. Controls how many ELF sections will b
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L454" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1800,7 +1846,7 @@ Controls how many levels of recursion will be followed forindirect magic entries
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L441" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1826,7 +1872,7 @@ ft_checker.max_indir <span class="k">do</span> <span class="o">|</span>current<s
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L441" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1847,7 +1893,7 @@ given value. See <code>libmagic(2)</code>. Controls how many levels of recursion
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L441" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1870,7 +1916,7 @@ Controls the maximum number of calls for name/use.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L445" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1896,7 +1942,7 @@ ft_checker.max_name <span class="k">do</span> <span class="o">|</span>current<sp
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L445" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1917,7 +1963,7 @@ given value. See <code>libmagic(2)</code>. Controls the maximum number of calls 
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L445" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1935,7 +1981,7 @@ given value. See <code>libmagic(2)</code>. Controls the maximum number of calls 
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L382" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1951,7 +1997,7 @@ given value. See <code>libmagic(2)</code>. Controls the maximum number of calls 
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L382" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1967,7 +2013,7 @@ given value. See <code>libmagic(2)</code>. Controls the maximum number of calls 
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L382" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1986,7 +2032,7 @@ from libmagic instead of returning nil.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L180" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L180" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2005,33 +2051,33 @@ from libmagic instead of returning nil.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L174" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L174" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="of(file_descriptor:Int32)-instance-method">
+    <div class="entry-detail" id="of(this:Int32)-instance-method">
       <div class="signature">
         
-        def <strong>of</strong>(file_descriptor : Int32)
+        def <strong>of</strong>(this : Int32)
 
-        <a class="method-permalink" href="#of%28file_descriptor%3AInt32%29-instance-method">#</a>
+        <a class="method-permalink" href="#of%28this%3AInt32%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L184" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L184" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="of(bytes:IO)-instance-method">
+    <div class="entry-detail" id="of(this:IO)-instance-method">
       <div class="signature">
         
-        def <strong>of</strong>(bytes : IO)
+        def <strong>of</strong>(this : IO)
 
-        <a class="method-permalink" href="#of%28bytes%3AIO%29-instance-method">#</a>
+        <a class="method-permalink" href="#of%28this%3AIO%29-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Get the filetype "of" the given bytes. Raises Errno if there's an error
@@ -2040,7 +2086,7 @@ from libmagic instead of returning nil.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L190" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L190" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2058,7 +2104,7 @@ from libmagic instead of returning nil.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L142" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L142" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2078,7 +2124,7 @@ accessing the file or an internal libmagic error. In this case
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L162" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L162" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2098,7 +2144,7 @@ accessing the file or an internal libmagic error. In this case
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L156" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L156" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2118,7 +2164,7 @@ accessing the file or an internal libmagic error. In this case
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L167" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L167" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2138,7 +2184,7 @@ accessing the file or an internal libmagic error. In this case
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L150" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L150" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2157,7 +2203,7 @@ accessing the file or an internal libmagic error. In this case
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L208" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L228" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2178,7 +2224,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L201" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L221" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2194,7 +2240,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L370" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2210,7 +2256,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L370" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2226,7 +2272,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L370" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2244,7 +2290,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L215" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L235" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2262,7 +2308,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2278,7 +2324,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2294,7 +2340,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2312,7 +2358,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2328,7 +2374,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2344,7 +2390,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2365,7 +2411,7 @@ details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L247" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2384,7 +2430,7 @@ deactivates the bitflag, as opposed to activating it.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L290" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2400,7 +2446,7 @@ deactivates the bitflag, as opposed to activating it.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L381" target="_blank">View source</a>]
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/bd4e44d038d9035f34cbbac0ceaf319061d65494/src/type_checker.cr#L401" target="_blank">View source</a>]
         
       </div>
     </div>
