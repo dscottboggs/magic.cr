@@ -181,6 +181,7 @@ module Magic
       of?(file) || raise error "checking filetype of file #{file}"
     end
 
+    # get the filetype "of" the open file at the given file descriptor integer.
     def of(this : Int32)
       of?(this) || raise error "checking filetype of file ##{this}"
     end
@@ -201,7 +202,8 @@ module Magic
     def for(this)
       of this
     end
-
+    # like `#of()` and `#for()` but returns a Set of valid extensions, rather
+    # than a single string.
     def extensions(this)
       result = [] of String
       if get_extensions?
@@ -264,6 +266,7 @@ module Magic
       @new_options &= ~flag
     end
 
+    # :nodoc:
     macro bitflag_option(name, value, docs)
       # {{docs.id}}
       def {{name.id}}
@@ -285,6 +288,7 @@ module Magic
       end
     end
 
+    # :nodoc:
     # semantically-inverted bitflag options. That is, activating the option
     # deactivates the bitflag, as opposed to activating it.
     macro inverse_bitflag_option(name, value, docs)
@@ -311,7 +315,7 @@ module Magic
     inverse_bitflag_option(
       :escape_unprintable,
       LibMagic::RAW,
-      "escapes non-printable bytes as their `\ooo` numeric forms.\
+      "escapes non-printable bytes as their `0oOOO` octal numeric forms.\
       By default crystal handles this in cases where it's important (in\
       `puts` for example), so by default strings contain the raw values for\
       unprintable characters. (this differs from the `libmagic` default)."
@@ -350,7 +354,7 @@ module Magic
       LibMagic::MIME_ENCODING,
       :"Return a MIME encoding, instead of a textual description.")
     bitflag_option(
-      :get_mime_type_and_encoding,
+      :get_mime,
       LibMagic::MIME,
       :"sets both `get_mime_type` and `get_mime_encoding`")
     bitflag_option(
@@ -398,6 +402,7 @@ module Magic
       LibMagic.set_param @checker, behavior, new_value unless new_value.nil?
     end
 
+    # :nodoc:
     macro magic_param(method_name, default_value, extra_docs)
       # Limit LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX to the
       # given value. This is equivalent to calling `magic_setparam` and passing
