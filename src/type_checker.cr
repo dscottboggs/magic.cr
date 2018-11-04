@@ -6,7 +6,7 @@ module Magic
   class Errno < ::Errno
     def initialize(msg, checker)
       msg = <<-ERR
-        #{msg}: libmagic says "#{String.new(LibMagic.error checker)}"
+        #{msg}: libmagic says "#{(err = LibMagic.error(checker)) && String.new(err)}"
       ERR
       super msg, Errno.value
     end
@@ -189,7 +189,10 @@ module Magic
     # from libmagic instead of returning nil.
     def of(bytes : IO)
       some_bytes = bytes.peek
-      raise error "reading #{bytes}" if some_bytes.nil? || some_bytes.empty?
+      if (some_bytes.nil? || some_bytes.empty?)
+        bytes.read (some_bytes = Bytes.new(32))
+      end
+      raise ::Errno.new "reading bytes, got #{some_bytes.inspect}" if some_bytes.nil? || some_bytes.empty?
       ptr = LibMagic.buffer(checker, some_bytes, some_bytes.size)
       String.new ptr || raise error "checking filetype of given byte sequence"
     end
