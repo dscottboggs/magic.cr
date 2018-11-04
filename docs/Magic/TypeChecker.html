@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.0">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/dscottboggs/magic.cr">
+  <title>Magic::TypeChecker - github.com/dscottboggs/magic.cr</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/dscottboggs/magic.cr/Magic" data-name="magic">
+      <a href="../Magic.html">Magic</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/dscottboggs/magic.cr/Magic/Errno" data-name="magic::errno">
+      <a href="../Magic/Errno.html">Errno</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/dscottboggs/magic.cr/Magic/TypeChecker" data-name="magic::typechecker">
+      <a href="../Magic/TypeChecker.html">TypeChecker</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Magic::TypeChecker
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Magic/TypeChecker.html">Magic::TypeChecker</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>A TypeChecker checks the Magic database on the system for a given file,
+filepath, file descriptor, or byte stream (IO) on its <code><a href="../Magic/TypeChecker.html#of%28file%3AFile%29-instance-method">.of</a></code> instance method.
+It contains methods for changing how its output is given. While the primary
+use cases for this module can be performed with the module-level functions,
+instances of TypeChecker provide the full flexibility of libmagic in a
+syntax that still makes sense in crystal.</p>
+
+<h4>Examples:</h4>
+
+<pre><code><span class="c"># get all matching mime types and the encoding from a series of files</span>
+mime_types <span class="o">=</span> <span class="t">TypeChecker</span>.<span class="k">new</span>.all_types.get_mime_type.get_mime_encoding
+
+<span class="k">def</span> <span class="m">type_of_each</span>(files : <span class="t">Indexable</span>(<span class="t">File</span>) <span class="o">|</span> <span class="t">Set</span>(<span class="t">File</span>))
+  files.each <span class="k">do</span> <span class="o">|</span>file<span class="o">|</span>
+    <span class="c"># and yield the list of mimes to a block</span>
+    <span class="k">yield</span> mime_types.<span class="k">of</span>(file).split(<span class="s">&#39;\n&#39;</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c"># alternately, return the list of mimes.</span>
+<span class="k">def</span> <span class="m">types_of_each</span>(files)
+  files.each <span class="k">do</span> <span class="o">|</span>file<span class="o">|</span>
+    mime_types.<span class="k">of</span>(file).split(<span class="s">&quot;\n&quot;</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c"># do the same thing but now follow symbolic links</span>
+<span class="k">def</span> <span class="m">types_of_each</span>(files)
+  mime_types.follow_symlinks
+  files.each <span class="k">do</span> <span class="o">|</span>file<span class="o">|</span>
+    <span class="k">yield</span> mime_types.<span class="k">of</span>(file).split(<span class="s">&quot;\n&quot;</span>)
+  <span class="k">end</span>
+  mime_types.follow_symlinks <span class="o">=</span> <span class="n">false</span>
+<span class="k">end</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L52" target="_blank">
+        type_checker.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Constant Summary</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="DefaultOptions">
+        <strong>DefaultOptions</strong> = <code><span class="t">LibMagic</span><span class="t">::</span><span class="t">RAW</span> <span class="o">|</span> <span class="t">LibMagic</span><span class="t">::</span><span class="t">ERROR</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Integer">
+        <strong>Integer</strong> = <code>((((((<span class="t">Int8</span> <span class="o">|</span> <span class="t">Int16</span>) <span class="o">|</span> <span class="t">Int32</span>) <span class="o">|</span> <span class="t">Int64</span>) <span class="o">|</span> <span class="t">UInt8</span>) <span class="o">|</span> <span class="t">UInt16</span>) <span class="o">|</span> <span class="t">UInt32</span>) <span class="o">|</span> <span class="t">UInt64</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28options%3DDefaultOptions%2Cdatabase_files%3AIterableOfStrings%3F%3Dnil%2Climit_settings%3AHash%28Limit%2CInt32%29%3F%3Dnil%29-class-method" class="signature"><strong>.new</strong>(options = <span class="t">DefaultOptions</span>, database_files : IterableOfStrings? = <span class="n">nil</span>, limit_settings : Hash(Limit, Int32)? = <span class="n">nil</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#all_types-instance-method" class="signature"><strong>#all_types</strong></a>
+        
+          <div class="summary"><p>Return all matches, not just the first.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#all_types%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#all_types=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#all_types%3F-instance-method" class="signature"><strong>#all_types?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#apple-instance-method" class="signature"><strong>#apple</strong></a>
+        
+          <div class="summary"><p>Return the Apple creator and type.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#apple%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#apple=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#apple%3F-instance-method" class="signature"><strong>#apple?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_db-instance-method" class="signature"><strong>#check_db</strong></a>
+        
+          <div class="summary"><p>Check the magic database for consistency and printwarnings to stderr, while checking a file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_db%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#check_db=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_db%3F-instance-method" class="signature"><strong>#check_db?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_device-instance-method" class="signature"><strong>#check_device</strong></a>
+        
+          <div class="summary"><p>If the file is a block or character special device, thenopen the device and try to look in its contents.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_device%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#check_device=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_device%3F-instance-method" class="signature"><strong>#check_device?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#checker%3D%28chkr%3ALibMagic%3A%3AMagicT%29-instance-method" class="signature"><strong>#checker=</strong>(chkr : LibMagic::MagicT)</a>
+        
+          <div class="summary"><p>Manually set the checker to a given LibMagic::MagicT (libmagic's magic_t).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#db_files%3ASet%28String%29%3F-instance-method" class="signature"><strong>#db_files</strong> : Set(String)?</a>
+        
+          <div class="summary"><p>database files to read from</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#db_files%3D%28files%3AIterableOfStrings%29-instance-method" class="signature"><strong>#db_files=</strong>(files : IterableOfStrings)</a>
+        
+          <div class="summary"><p>Load a new set of database files into the magic database.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug_output-instance-method" class="signature"><strong>#debug_output</strong></a>
+        
+          <div class="summary"><p>Have <code>libmagic(2)</code> print debugging messages to stderr.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug_output%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#debug_output=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug_output%3F-instance-method" class="signature"><strong>#debug_output?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#default_options%3F-instance-method" class="signature"><strong>#default_options?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#error%28msg%29-instance-method" class="signature"><strong>#error</strong>(msg)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#escape_unprintable-instance-method" class="signature"><strong>#escape_unprintable</strong></a>
+        
+          <div class="summary"><p>escapes non-printable bytes as their <code>ooo</code> numeric forms.By default crystal handles this in cases where it's important (in<code>puts</code> for example), so by default strings contain the raw values forunprintable characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#escape_unprintable%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#escape_unprintable=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#escape_unprintable%3F-instance-method" class="signature"><strong>#escape_unprintable?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extensions-instance-method" class="signature"><strong>#extensions</strong></a>
+        
+          <div class="summary"><p>Return a slash-separated list of extensions for this file type.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extensions%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#extensions=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extensions%3F-instance-method" class="signature"><strong>#extensions?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#follow_symlinks-instance-method" class="signature"><strong>#follow_symlinks</strong></a>
+        
+          <div class="summary"><p>If the file queried is a symlink, follow it.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#follow_symlinks%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#follow_symlinks=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#follow_symlinks%3F-instance-method" class="signature"><strong>#follow_symlinks?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_encoding-instance-method" class="signature"><strong>#get_mime_encoding</strong></a>
+        
+          <div class="summary"><p>Return a MIME encoding, instead of a textual description.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_encoding%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#get_mime_encoding=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_encoding%3F-instance-method" class="signature"><strong>#get_mime_encoding?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type-instance-method" class="signature"><strong>#get_mime_type</strong></a>
+        
+          <div class="summary"><p>Return a MIME type string, instead of a textual description.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#get_mime_type=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type%3F-instance-method" class="signature"><strong>#get_mime_type?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type_and_encoding-instance-method" class="signature"><strong>#get_mime_type_and_encoding</strong></a>
+        
+          <div class="summary"><p>sets both <code><a href="../Magic/TypeChecker.html#get_mime_type-instance-method">#get_mime_type</a></code> and <code><a href="../Magic/TypeChecker.html#get_mime_encoding-instance-method">#get_mime_encoding</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type_and_encoding%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#get_mime_type_and_encoding=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_mime_type_and_encoding%3F-instance-method" class="signature"><strong>#get_mime_type_and_encoding?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#libmagic_defaults-instance-method" class="signature"><strong>#libmagic_defaults</strong></a>
+        
+          <div class="summary"><p>use the MAGIC_NONE option (the default for libmagic) instead of the default for magic.cr</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#libmagic_defaults%3F-instance-method" class="signature"><strong>#libmagic_defaults?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#look_into_compressed_files-instance-method" class="signature"><strong>#look_into_compressed_files</strong></a>
+        
+          <div class="summary"><p>If the file is compressed, unpack it and look at the contents.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#look_into_compressed_files%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#look_into_compressed_files=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#look_into_compressed_files%3F-instance-method" class="signature"><strong>#look_into_compressed_files?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_bytes%28%26block%29-instance-method" class="signature"><strong>#max_bytes</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_bytes to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_bytes-instance-method" class="signature"><strong>#max_bytes</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_BYTES_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_bytes%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_bytes=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_BYTES_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_notes-instance-method" class="signature"><strong>#max_elf_notes</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_ELF_NOTES_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_notes%28%26block%29-instance-method" class="signature"><strong>#max_elf_notes</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_elf_notes to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_notes%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_elf_notes=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_ELF_NOTES_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_phnum-instance-method" class="signature"><strong>#max_elf_phnum</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_ELF_PHNUM_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_phnum%28%26block%29-instance-method" class="signature"><strong>#max_elf_phnum</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_elf_phnum to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_phnum%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_elf_phnum=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_ELF_PHNUM_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_shnum-instance-method" class="signature"><strong>#max_elf_shnum</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_ELF_SHNUM_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_shnum%28%26block%29-instance-method" class="signature"><strong>#max_elf_shnum</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_elf_shnum to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_elf_shnum%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_elf_shnum=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_ELF_SHNUM_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_indir-instance-method" class="signature"><strong>#max_indir</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_INDIR_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_indir%28%26block%29-instance-method" class="signature"><strong>#max_indir</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_indir to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_indir%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_indir=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_INDIR_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_name-instance-method" class="signature"><strong>#max_name</strong></a>
+        
+          <div class="summary"><p>Get the current limit of the LibMagic::PARAM_NAME_MAX libmagic param.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_name%28%26block%29-instance-method" class="signature"><strong>#max_name</strong>(&block)</a>
+        
+          <div class="summary"><p>Yields the current value of the max_name to the block, then sets the value to the result of the block, unless the block returns nil, of course.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max_name%3D%28value%3AInt32%29-instance-method" class="signature"><strong>#max_name=</strong>(value : Int32)</a>
+        
+          <div class="summary"><p>Limit LibMagic::PARAM_NAME_MAX to the given value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#no_compression_info-instance-method" class="signature"><strong>#no_compression_info</strong></a>
+        
+          <div class="summary"><p>Don't report on compression, only report about the uncompressed data.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#no_compression_info%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#no_compression_info=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#no_compression_info%3F-instance-method" class="signature"><strong>#no_compression_info?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%28file%3AFile%29-instance-method" class="signature"><strong>#of</strong>(file : File)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%28filepath%29-instance-method" class="signature"><strong>#of</strong>(filepath)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%28file_descriptor%3AInt32%29-instance-method" class="signature"><strong>#of</strong>(file_descriptor : Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%28bytes%3AIO%29-instance-method" class="signature"><strong>#of</strong>(bytes : IO)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%3F%28filepath%2Copts%29-instance-method" class="signature"><strong>#of?</strong>(filepath, opts)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file, passing <code>opts</code> to <code>libmagic(2)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%3F%28file%3AFile%29-instance-method" class="signature"><strong>#of?</strong>(file : File)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%3F%28bytes%3AIO%29-instance-method" class="signature"><strong>#of?</strong>(bytes : IO)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%3F%28file_descriptor%3AInt32%29-instance-method" class="signature"><strong>#of?</strong>(file_descriptor : Int32)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#of%3F%28filepath%29-instance-method" class="signature"><strong>#of?</strong>(filepath)</a>
+        
+          <div class="summary"><p>Get the filetype "of" the given file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#options-instance-method" class="signature"><strong>#options</strong></a>
+        
+          <div class="summary"><p>The current value of the magic flags.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#options%3D%28options%29-instance-method" class="signature"><strong>#options=</strong>(options)</a>
+        
+          <div class="summary"><p>Directly set the options parameter.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#preserve_atime-instance-method" class="signature"><strong>#preserve_atime</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#preserve_atime%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#preserve_atime=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#preserve_atime%3F-instance-method" class="signature"><strong>#preserve_atime?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset_options-instance-method" class="signature"><strong>#reset_options</strong></a>
+        
+          <div class="summary"><p>reset any options set on this instance back to the magic.cr default.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#return_error_as_text-instance-method" class="signature"><strong>#return_error_as_text</strong></a>
+        
+          <div class="summary"><p>Return errors while trying to open files and follow symlinks in thefiletype text rather than raising an error.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#return_error_as_text%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#return_error_as_text=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#return_error_as_text%3F-instance-method" class="signature"><strong>#return_error_as_text?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#try_to_preserve_access_time-instance-method" class="signature"><strong>#try_to_preserve_access_time</strong></a>
+        
+          <div class="summary"><p>On systems that support utime(3) or utimes(2), attempt topreserve the access time of files analysed.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#try_to_preserve_access_time%3D%28setting%3ABool%29-instance-method" class="signature"><strong>#try_to_preserve_access_time=</strong>(setting : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#try_to_preserve_access_time%3F-instance-method" class="signature"><strong>#try_to_preserve_access_time?</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Macro Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#bitflag_option%28name%2Cvalue%2Cdocs%29-macro" class="signature"><strong>bitflag_option</strong>(name, value, docs)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inverse_bitflag_option%28name%2Cvalue%2Cdocs%29-macro" class="signature"><strong>inverse_bitflag_option</strong>(name, value, docs)</a>
+        
+          <div class="summary"><p>semantically-inverted bitflag options.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#magic_param%28method_name%2Cdefault_value%2Cextra_docs%29-macro" class="signature"><strong>magic_param</strong>(method_name, default_value, extra_docs)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(options=DefaultOptions,database_files:IterableOfStrings?=nil,limit_settings:Hash(Limit,Int32)?=nil)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(options = <span class="t">DefaultOptions</span>, database_files : IterableOfStrings? = <span class="n">nil</span>, limit_settings : Hash(Limit, Int32)? = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#new%28options%3DDefaultOptions%2Cdatabase_files%3AIterableOfStrings%3F%3Dnil%2Climit_settings%3AHash%28Limit%2CInt32%29%3F%3Dnil%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L67" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="all_types-instance-method">
+      <div class="signature">
+        
+        def <strong>all_types</strong>
+
+        <a class="method-permalink" href="#all_types-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return all matches, not just the first.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="all_types=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>all_types=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#all_types%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="all_types?-instance-method">
+      <div class="signature">
+        
+        def <strong>all_types?</strong>
+
+        <a class="method-permalink" href="#all_types%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L336" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="apple-instance-method">
+      <div class="signature">
+        
+        def <strong>apple</strong>
+
+        <a class="method-permalink" href="#apple-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return the Apple creator and type.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="apple=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>apple=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#apple%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="apple?-instance-method">
+      <div class="signature">
+        
+        def <strong>apple?</strong>
+
+        <a class="method-permalink" href="#apple%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L354" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_db-instance-method">
+      <div class="signature">
+        
+        def <strong>check_db</strong>
+
+        <a class="method-permalink" href="#check_db-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Check the magic database for consistency and printwarnings to stderr, while checking a file.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_db=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>check_db=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#check_db%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_db?-instance-method">
+      <div class="signature">
+        
+        def <strong>check_db?</strong>
+
+        <a class="method-permalink" href="#check_db%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L340" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_device-instance-method">
+      <div class="signature">
+        
+        def <strong>check_device</strong>
+
+        <a class="method-permalink" href="#check_device-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>If the file is a block or character special device, thenopen the device and try to look in its contents.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_device=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>check_device=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#check_device%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_device?-instance-method">
+      <div class="signature">
+        
+        def <strong>check_device?</strong>
+
+        <a class="method-permalink" href="#check_device%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L319" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="checker=(chkr:LibMagic::MagicT)-instance-method">
+      <div class="signature">
+        
+        def <strong>checker=</strong>(chkr : LibMagic::MagicT)
+
+        <a class="method-permalink" href="#checker%3D%28chkr%3ALibMagic%3A%3AMagicT%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Manually set the checker to a given LibMagic::MagicT (libmagic's magic_t).
+This also reloads the datase, so no need to do that manually. If the given
+MagicT is a null pointer, this will raise Errno.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="db_files:Set(String)?-instance-method">
+      <div class="signature">
+        
+        def <strong>db_files</strong> : Set(String)?
+
+        <a class="method-permalink" href="#db_files%3ASet%28String%29%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>database files to read from</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="db_files=(files:IterableOfStrings)-instance-method">
+      <div class="signature">
+        
+        def <strong>db_files=</strong>(files : IterableOfStrings)
+
+        <a class="method-permalink" href="#db_files%3D%28files%3AIterableOfStrings%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Load a new set of database files into the magic database. Setting this to
+:default sets the database to the value of the MAGIC environment variable,
+or, failing that, the default database, usually at
+<code>/usr/share/misc/magic</code>. Example:</p>
+
+<pre><code>check_ft <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+check_ft.database <span class="o">=</span> [ <span class="s">&quot;/path/to/file&quot;</span>, <span class="t">File</span>.join(<span class="s">&quot;other&quot;</span>, <span class="s">&quot;path&quot;</span>)]
+...
+check_ft.database <span class="o">=</span> <span class="n">:default</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L122" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug_output-instance-method">
+      <div class="signature">
+        
+        def <strong>debug_output</strong>
+
+        <a class="method-permalink" href="#debug_output-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Have <code>libmagic(2)</code> print debugging messages to stderr.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug_output=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>debug_output=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#debug_output%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug_output?-instance-method">
+      <div class="signature">
+        
+        def <strong>debug_output?</strong>
+
+        <a class="method-permalink" href="#debug_output%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L307" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="default_options?-instance-method">
+      <div class="signature">
+        
+        def <strong>default_options?</strong>
+
+        <a class="method-permalink" href="#default_options%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L220" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="error(msg)-instance-method">
+      <div class="signature">
+        
+        def <strong>error</strong>(msg)
+
+        <a class="method-permalink" href="#error%28msg%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="escape_unprintable-instance-method">
+      <div class="signature">
+        
+        def <strong>escape_unprintable</strong>
+
+        <a class="method-permalink" href="#escape_unprintable-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>escapes non-printable bytes as their <code>ooo</code> numeric forms.By default crystal handles this in cases where it's important (in<code>puts</code> for example), so by default strings contain the raw values forunprintable characters. (this differs from the <code>libmagic</code> default).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="escape_unprintable=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>escape_unprintable=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#escape_unprintable%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="escape_unprintable?-instance-method">
+      <div class="signature">
+        
+        def <strong>escape_unprintable?</strong>
+
+        <a class="method-permalink" href="#escape_unprintable%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L291" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extensions-instance-method">
+      <div class="signature">
+        
+        def <strong>extensions</strong>
+
+        <a class="method-permalink" href="#extensions-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return a slash-separated list of extensions for this file type.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extensions=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>extensions=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#extensions%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extensions?-instance-method">
+      <div class="signature">
+        
+        def <strong>extensions?</strong>
+
+        <a class="method-permalink" href="#extensions%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L358" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="follow_symlinks-instance-method">
+      <div class="signature">
+        
+        def <strong>follow_symlinks</strong>
+
+        <a class="method-permalink" href="#follow_symlinks-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>If the file queried is a symlink, follow it.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="follow_symlinks=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>follow_symlinks=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#follow_symlinks%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="follow_symlinks?-instance-method">
+      <div class="signature">
+        
+        def <strong>follow_symlinks?</strong>
+
+        <a class="method-permalink" href="#follow_symlinks%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L311" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_encoding-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_encoding</strong>
+
+        <a class="method-permalink" href="#get_mime_encoding-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return a MIME encoding, instead of a textual description.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_encoding=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_encoding=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#get_mime_encoding%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_encoding?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_encoding?</strong>
+
+        <a class="method-permalink" href="#get_mime_encoding%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L328" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type</strong>
+
+        <a class="method-permalink" href="#get_mime_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return a MIME type string, instead of a textual description.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#get_mime_type%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type?</strong>
+
+        <a class="method-permalink" href="#get_mime_type%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L324" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type_and_encoding-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type_and_encoding</strong>
+
+        <a class="method-permalink" href="#get_mime_type_and_encoding-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>sets both <code><a href="../Magic/TypeChecker.html#get_mime_type-instance-method">#get_mime_type</a></code> and <code><a href="../Magic/TypeChecker.html#get_mime_encoding-instance-method">#get_mime_encoding</a></code></p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type_and_encoding=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type_and_encoding=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#get_mime_type_and_encoding%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_mime_type_and_encoding?-instance-method">
+      <div class="signature">
+        
+        def <strong>get_mime_type_and_encoding?</strong>
+
+        <a class="method-permalink" href="#get_mime_type_and_encoding%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L332" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="libmagic_defaults-instance-method">
+      <div class="signature">
+        
+        def <strong>libmagic_defaults</strong>
+
+        <a class="method-permalink" href="#libmagic_defaults-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>use the MAGIC_NONE option (the default for libmagic) instead of the
+default for magic.cr</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L226" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="libmagic_defaults?-instance-method">
+      <div class="signature">
+        
+        def <strong>libmagic_defaults?</strong>
+
+        <a class="method-permalink" href="#libmagic_defaults%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L231" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="look_into_compressed_files-instance-method">
+      <div class="signature">
+        
+        def <strong>look_into_compressed_files</strong>
+
+        <a class="method-permalink" href="#look_into_compressed_files-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>If the file is compressed, unpack it and look at the contents.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="look_into_compressed_files=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>look_into_compressed_files=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#look_into_compressed_files%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="look_into_compressed_files?-instance-method">
+      <div class="signature">
+        
+        def <strong>look_into_compressed_files?</strong>
+
+        <a class="method-permalink" href="#look_into_compressed_files%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L315" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_bytes(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_bytes</strong>(&block)
+
+        <a class="method-permalink" href="#max_bytes%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_bytes to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course.  Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_BYTES_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_bytes <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_bytes-instance-method">
+      <div class="signature">
+        
+        def <strong>max_bytes</strong>
+
+        <a class="method-permalink" href="#max_bytes-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_BYTES_MAX libmagic param.
+Defaults to 1048576. This is the same as calling
+magic_getparam and passing in the
+PARAM_BYTES_MAX constant. See <code>libmagic(2)</code>.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_bytes=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_bytes=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_bytes%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_BYTES_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_BYTES_MAX and the
+given value. See <code>libmagic(2)</code>. </p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L438" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_notes-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_notes</strong>
+
+        <a class="method-permalink" href="#max_elf_notes-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_ELF_NOTES_MAX libmagic param.
+Defaults to 256. This is the same as calling
+magic_getparam and passing in the
+PARAM_ELF_NOTES_MAX constant. See <code>libmagic(2)</code>.
+Controls how many ELF notes will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_notes(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_notes</strong>(&block)
+
+        <a class="method-permalink" href="#max_elf_notes%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_elf_notes to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course. Controls how many ELF notes will be processed. Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_ELF_NOTES_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_elf_notes <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_notes=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_notes=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_elf_notes%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_ELF_NOTES_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_ELF_NOTES_MAX and the
+given value. See <code>libmagic(2)</code>. Controls how many ELF notes will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L428" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_phnum-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_phnum</strong>
+
+        <a class="method-permalink" href="#max_elf_phnum-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_ELF_PHNUM_MAX libmagic param.
+Defaults to 128. This is the same as calling
+magic_getparam and passing in the
+PARAM_ELF_PHNUM_MAX constant. See <code>libmagic(2)</code>.
+Controls how many ELF program sections will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_phnum(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_phnum</strong>(&block)
+
+        <a class="method-permalink" href="#max_elf_phnum%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_elf_phnum to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course. Controls how many ELF program sections will be processed. Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_ELF_PHNUM_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_elf_phnum <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_phnum=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_phnum=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_elf_phnum%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_ELF_PHNUM_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_ELF_PHNUM_MAX and the
+given value. See <code>libmagic(2)</code>. Controls how many ELF program sections will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L431" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_shnum-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_shnum</strong>
+
+        <a class="method-permalink" href="#max_elf_shnum-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_ELF_SHNUM_MAX libmagic param.
+Defaults to 32768. This is the same as calling
+magic_getparam and passing in the
+PARAM_ELF_SHNUM_MAX constant. See <code>libmagic(2)</code>.
+Controls how many ELF sections will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_shnum(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_shnum</strong>(&block)
+
+        <a class="method-permalink" href="#max_elf_shnum%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_elf_shnum to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course. Controls how many ELF sections will be processed. Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_ELF_SHNUM_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_elf_shnum <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_elf_shnum=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_elf_shnum=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_elf_shnum%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_ELF_SHNUM_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_ELF_SHNUM_MAX and the
+given value. See <code>libmagic(2)</code>. Controls how many ELF sections will be processed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L434" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_indir-instance-method">
+      <div class="signature">
+        
+        def <strong>max_indir</strong>
+
+        <a class="method-permalink" href="#max_indir-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_INDIR_MAX libmagic param.
+Defaults to 15. This is the same as calling
+magic_getparam and passing in the
+PARAM_INDIR_MAX constant. See <code>libmagic(2)</code>.
+Controls how many levels of recursion will be followed forindirect magic entries.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_indir(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_indir</strong>(&block)
+
+        <a class="method-permalink" href="#max_indir%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_indir to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course. Controls how many levels of recursion will be followed forindirect magic entries. Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_INDIR_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_indir <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_indir=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_indir=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_indir%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_INDIR_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_INDIR_MAX and the
+given value. See <code>libmagic(2)</code>. Controls how many levels of recursion will be followed forindirect magic entries.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L421" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_name-instance-method">
+      <div class="signature">
+        
+        def <strong>max_name</strong>
+
+        <a class="method-permalink" href="#max_name-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the current limit of the
+LibMagic::PARAM_NAME_MAX libmagic param.
+Defaults to 30. This is the same as calling
+magic_getparam and passing in the
+PARAM_NAME_MAX constant. See <code>libmagic(2)</code>.
+Controls the maximum number of calls for name/use.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_name(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_name</strong>(&block)
+
+        <a class="method-permalink" href="#max_name%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Yields the current value of the max_name to the block, then
+sets the value to the result of the block, unless the block returns
+nil, of course. Controls the maximum number of calls for name/use. Example:</p>
+
+<pre><code><span class="c"># doubles the PARAM_NAME_MAX limit</span>
+ft_checker <span class="o">=</span> <span class="t">Magic</span><span class="t">::</span><span class="t">TypeChecker</span>.<span class="k">new</span>
+ft_checker.max_name <span class="k">do</span> <span class="o">|</span>current<span class="o">|</span>
+  current <span class="o">*</span> <span class="n">2</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max_name=(value:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>max_name=</strong>(value : Int32)
+
+        <a class="method-permalink" href="#max_name%3D%28value%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Limit LibMagic::PARAM_NAME_MAX to the
+given value. This is equivalent to calling <code>magic_setparam</code> and passing
+it the constant PARAM_NAME_MAX and the
+given value. See <code>libmagic(2)</code>. Controls the maximum number of calls for name/use.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L425" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="no_compression_info-instance-method">
+      <div class="signature">
+        
+        def <strong>no_compression_info</strong>
+
+        <a class="method-permalink" href="#no_compression_info-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Don't report on compression, only report about the uncompressed data.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="no_compression_info=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>no_compression_info=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#no_compression_info%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="no_compression_info?-instance-method">
+      <div class="signature">
+        
+        def <strong>no_compression_info?</strong>
+
+        <a class="method-permalink" href="#no_compression_info%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L362" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of(file:File)-instance-method">
+      <div class="signature">
+        
+        def <strong>of</strong>(file : File)
+
+        <a class="method-permalink" href="#of%28file%3AFile%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Raises Errno if there's an error
+from libmagic instead of returning nil.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L180" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of(filepath)-instance-method">
+      <div class="signature">
+        
+        def <strong>of</strong>(filepath)
+
+        <a class="method-permalink" href="#of%28filepath%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Raises Errno if there's an error
+from libmagic instead of returning nil.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L174" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of(file_descriptor:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>of</strong>(file_descriptor : Int32)
+
+        <a class="method-permalink" href="#of%28file_descriptor%3AInt32%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L184" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of(bytes:IO)-instance-method">
+      <div class="signature">
+        
+        def <strong>of</strong>(bytes : IO)
+
+        <a class="method-permalink" href="#of%28bytes%3AIO%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given bytes. Raises Errno if there's an error
+from libmagic instead of returning nil.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L190" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of?(filepath,opts)-instance-method">
+      <div class="signature">
+        
+        def <strong>of?</strong>(filepath, opts)
+
+        <a class="method-permalink" href="#of%3F%28filepath%2Copts%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file, passing <code>opts</code> to <code>libmagic(2)</code>.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L142" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of?(file:File)-instance-method">
+      <div class="signature">
+        
+        def <strong>of?</strong>(file : File)
+
+        <a class="method-permalink" href="#of%3F%28file%3AFile%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Returns nil if there's an error
+accessing the file or an internal libmagic error. In this case
+<code>libmagic(2)</code> will set <code>errno(3)</code> (<code>Errno.value</code>).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L162" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of?(bytes:IO)-instance-method">
+      <div class="signature">
+        
+        def <strong>of?</strong>(bytes : IO)
+
+        <a class="method-permalink" href="#of%3F%28bytes%3AIO%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Returns nil if there's an error
+accessing the file or an internal libmagic error. In this case
+<code>libmagic(2)</code> will set <code>errno(3)</code> (<code>Errno.value</code>).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L156" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of?(file_descriptor:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>of?</strong>(file_descriptor : Int32)
+
+        <a class="method-permalink" href="#of%3F%28file_descriptor%3AInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Returns nil if there's an error
+accessing the file or an internal libmagic error. In this case
+<code>libmagic(2)</code> will set <code>errno(3)</code> (<code>Errno.value</code>).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L167" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="of?(filepath)-instance-method">
+      <div class="signature">
+        
+        def <strong>of?</strong>(filepath)
+
+        <a class="method-permalink" href="#of%3F%28filepath%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Get the filetype "of" the given file. Returns nil if there's an error
+accessing the file or an internal libmagic error. In this case
+<code>libmagic(2)</code> will set <code>errno(3)</code> (<code>Errno.value</code>).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L150" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="options-instance-method">
+      <div class="signature">
+        
+        def <strong>options</strong>
+
+        <a class="method-permalink" href="#options-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>The current value of the magic flags. Equivalent to calling C's
+<code>magic_getflags()</code> or LibMagic.flags on this instance.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L208" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="options=(options)-instance-method">
+      <div class="signature">
+        
+        def <strong>options=</strong>(options)
+
+        <a class="method-permalink" href="#options%3D%28options%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Directly set the options parameter. This overrides all other options (like
+debug_output, follow_symlinks, etc.). Equivalent to calling C's
+<code>magic_setflags()</code> with the given integer. See <code>libmagic(2)</code> for more
+details. Appropriate values can be bitwise-or'd from LibMagic's constants.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L201" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="preserve_atime-instance-method">
+      <div class="signature">
+        
+        def <strong>preserve_atime</strong>
+
+        <a class="method-permalink" href="#preserve_atime-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="preserve_atime=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>preserve_atime=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#preserve_atime%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="preserve_atime?-instance-method">
+      <div class="signature">
+        
+        def <strong>preserve_atime?</strong>
+
+        <a class="method-permalink" href="#preserve_atime%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L350" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset_options-instance-method">
+      <div class="signature">
+        
+        def <strong>reset_options</strong>
+
+        <a class="method-permalink" href="#reset_options-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>reset any options set on this instance back to the magic.cr default.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L215" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="return_error_as_text-instance-method">
+      <div class="signature">
+        
+        def <strong>return_error_as_text</strong>
+
+        <a class="method-permalink" href="#return_error_as_text-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return errors while trying to open files and follow symlinks in thefiletype text rather than raising an error. This differs from the <code>libmagic</code> default, because it makes more sense to handle the errors in Crystal in most cases than to output them as text.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="return_error_as_text=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>return_error_as_text=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#return_error_as_text%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="return_error_as_text?-instance-method">
+      <div class="signature">
+        
+        def <strong>return_error_as_text?</strong>
+
+        <a class="method-permalink" href="#return_error_as_text%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L299" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="try_to_preserve_access_time-instance-method">
+      <div class="signature">
+        
+        def <strong>try_to_preserve_access_time</strong>
+
+        <a class="method-permalink" href="#try_to_preserve_access_time-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>On systems that support utime(3) or utimes(2), attempt topreserve the access time of files analysed.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="try_to_preserve_access_time=(setting:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>try_to_preserve_access_time=</strong>(setting : Bool)
+
+        <a class="method-permalink" href="#try_to_preserve_access_time%3D%28setting%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="try_to_preserve_access_time?-instance-method">
+      <div class="signature">
+        
+        def <strong>try_to_preserve_access_time?</strong>
+
+        <a class="method-permalink" href="#try_to_preserve_access_time%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L345" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Macro Detail</h2>
+  
+    <div class="entry-detail" id="bitflag_option(name,value,docs)-macro">
+      <div class="signature">
+        
+        macro <strong>bitflag_option</strong>(name, value, docs)
+
+        <a class="method-permalink" href="#bitflag_option%28name%2Cvalue%2Cdocs%29-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L247" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inverse_bitflag_option(name,value,docs)-macro">
+      <div class="signature">
+        
+        macro <strong>inverse_bitflag_option</strong>(name, value, docs)
+
+        <a class="method-permalink" href="#inverse_bitflag_option%28name%2Cvalue%2Cdocs%29-macro">#</a>
+      </div>
+      
+        <div class="doc"><p>semantically-inverted bitflag options. That is, activating the option
+deactivates the bitflag, as opposed to activating it.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L270" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="magic_param(method_name,default_value,extra_docs)-macro">
+      <div class="signature">
+        
+        macro <strong>magic_param</strong>(method_name, default_value, extra_docs)
+
+        <a class="method-permalink" href="#magic_param%28method_name%2Cdefault_value%2Cextra_docs%29-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/dscottboggs/magic.cr/blob/400637117a1c605c8675ad3e78e6c72fd5a57465/src/type_checker.cr#L381" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>
