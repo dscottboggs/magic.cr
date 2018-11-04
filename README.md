@@ -1,6 +1,6 @@
 # magic.cr
 
-TODO: Write a description here
+Bindings to `libmagic(2)` for Crystal.
 
 ## Installation
 
@@ -9,24 +9,39 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   magic.cr:
-    github: your-github-user/magic.cr
+    github: dscottboggs/magic.cr
 ```
 
 ## Usage
 
 ```crystal
 require "magic.cr"
-```
+require "http" # for the HTTP example
 
-TODO: Write usage instructions here
+TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
+
+# get a description of the contents of the file at a path.
+Magic.filetype_of "/path/to/a/video.mkv" # => "Matroska data"
+
+# open your bashrc and check its mime type
+File.open "~/.bashrc" do |bashrc|
+    Magic.mime_type_of bashrc # => "text/plain"
+end
+
+# pull TestImageURL from the web and find out what the valid extensions are for
+# the bytes received.
+HTTP::Client.get TestImageURL do |result|
+  Magic.valid_extensions_for result.body_io # => Set{"jpeg", "jpg", "jpe", "jfif"}
+end
+```
 
 ## Development
 
-TODO: Write development instructions here
+Create an issue if you think anything needs revision!
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/magic.cr/fork>)
+1. Fork it (<https://github.com/dscottboggs/magic.cr/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -34,4 +49,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [your-github-user](https://github.com/your-github-user) D. Scott Boggs - creator, maintainer
+- [dscottboggs](https://github.com/dscottboggs) D. Scott Boggs - creator, maintainer

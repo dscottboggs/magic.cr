@@ -170,7 +170,9 @@ module Magic
     # Get the filetype "of" the given bytes. Raises Errno if there's an error
     # from libmagic instead of returning nil.
     def of(bytes : IO)
-      ptr = LibMagic.buffer(checker, bytes.buffer, bytes.size)
+      some_bytes = bytes.peek
+      raise error "reading #{bytes}" if some_bytes.nil? || some_bytes.empty?
+      ptr = LibMagic.buffer(checker, some_bytes, some_bytes.size)
       String.new ptr || raise error "checking filetype of given byte sequence"
     end
 

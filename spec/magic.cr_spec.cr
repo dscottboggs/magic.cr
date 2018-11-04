@@ -1,6 +1,9 @@
 require "./spec_helper"
+require "http"
 
 TestPictureFile = "test_data/libworks.jpg"
+TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
+JpegExtensions = Set{"jpeg", "jpg", "jpe", "jfif"}
 
 describe Magic do
   describe "Magic.filetype_of()" do
@@ -15,7 +18,13 @@ describe Magic do
   end
   describe "Magic.valid_extensions_for()" do
     it "works as expected" do
-      Magic.valid_extensions_for(TestPictureFile).should eq Set{"jpeg", "jpg", "jpe", "jfif"}
+      Magic.valid_extensions_for(TestPictureFile).should eq JpegExtensions
+    end
+  end
+
+  describe "Magic.mime_type_of(IO)" do
+    HTTP::Client.get TestImageURL do |result|
+      Magic.valid_extensions_for(result.body_io).should eq JpegExtensions
     end
   end
 
