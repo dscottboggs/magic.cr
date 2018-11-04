@@ -16,7 +16,7 @@ module Magic
   end
 
   def mime_type_of(this)
-    check_mime_type = @@mime_type_checker ||= Magic::TypeChecker.new.mime_type
+    check_mime_type = @@mime_type_checker ||= Magic::TypeChecker.new.get_mime_type
     check_mime_type.of this
   end
 

@@ -24,6 +24,7 @@ module Magic
   # ```
   # # get all matching mime types and the encoding from a series of files
   # mime_types = TypeChecker.new.all_types.get_mime_type.get_mime_encoding
+  #
   # def type_of_each(files : Indexable(File) | Set(File))
   #   files.each do |file|
   #     yield mime_types.of file
