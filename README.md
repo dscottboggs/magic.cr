@@ -14,6 +14,8 @@ dependencies:
 
 ## Usage
 
+[API documentation](https://dscottboggs.github.io/magic.cr/index.html)
+
 ```crystal
 require "magic.cr"
 require "http" # for the HTTP example
