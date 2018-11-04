@@ -35,6 +35,10 @@ HTTP::Client.get TestImageURL do |result|
 end
 ```
 
+There is also a much more flexible and complicated API for more advanced usage.
+For more information and some examples, see `Magic::TypeChecker` and
+`spec/magic.cr_spec.cr`.
+
 ## Development
 
 Create an issue if you think anything needs revision!

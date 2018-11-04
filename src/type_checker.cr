@@ -27,10 +27,28 @@ module Magic
   #
   # def type_of_each(files : Indexable(File) | Set(File))
   #   files.each do |file|
-  #     yield mime_types.of file
+  #     # and yield the list of mimes to a block
+  #     yield mime_types.of(file).split('\n')
   #   end
   # end
+  #
+  # # alternately, return the list of mimes.
+  # def types_of_each(files)
+  #   files.each do |file|
+  #     mime_types.of(file).split("\n")
+  #   end
+  # end
+  #
+  # # do the same thing but now follow symbolic links
+  # def types_of_each(files)
+  #   mime_types.follow_symlinks
+  #   files.each do |file|
+  #     yield mime_types.of(file).split("\n")
+  #   end
+  #   mime_types.follow_symlinks = false
+  # end
   # ```
+  #
   class TypeChecker
     # database files to read from
     getter db_files : Set(String)?
