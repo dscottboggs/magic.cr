@@ -8,10 +8,3 @@ crystal: 0.27.0
 
 license: MIT
 
-dependencies:
-  autobind:
-    github: dscottboggs/crystal-autobind
-    branch: named-lib
-
-scripts:
-  postinstall: ./gen-bindings.sh
