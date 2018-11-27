@@ -99,7 +99,7 @@ module Magic
       raise error("opening the magic cookie") if @checker.null?
       LibMagic.open @checker
       LibMagic.load @checker, @db_files
-      checker
+      @checker
     end
 
     # The `libmagic(2)` "magic cookie". This also updates any options that were
@@ -220,9 +220,7 @@ module Magic
     # debug_output, follow_symlinks, etc.). Equivalent to calling C's
     # `magic_setflags()` with the given integer. See `libmagic(2)` for more
     # details. Appropriate values can be bitwise-or'd from LibMagic's constants.
-    def options=(options)
-      @new_options = options
-      self
+    def options=(@new_options)
     end
 
     # The current value of the magic flags. Equivalent to calling C's
@@ -284,7 +282,7 @@ module Magic
         else
           unset {{value.id}}
         end
-        self
+        setting
       end
     end
 
@@ -308,7 +306,7 @@ module Magic
         else
           set {{value.id}}
         end
-        self
+        setting
       end
     end
 
@@ -397,9 +395,10 @@ module Magic
     #   current + new_value
     # end
     private def limit(behavior : Int32)
-      current = LibMagic.param @checker, behavior
-      new_value = yield current
-      LibMagic.set_param @checker, behavior, new_value unless new_value.nil?
+      LibMagic.param @checker, behavior, out current
+      if new_value = yield current
+        LibMagic.set_param @checker, behavior, new_value
+      end
     end
 
     # :nodoc:
@@ -410,7 +409,7 @@ module Magic
       # given value. See `libmagic(2)`. {{extra_docs.id}}
       def {{method_name.id}}=(value : Int32)
         limit LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX, to: value
-        self
+        {{method_name.id}}
       end
       # Yields the current value of the {{method_name.id}} to the block, then
       # sets the value to the result of the block, unless the block returns
@@ -423,10 +422,10 @@ module Magic
       # end
       # ```
       def {{method_name.id}}
-        limit(LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX) do |curr|
+        limit LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX do |curr|
           yield curr
         end
-        self
+        {{method_name.id}}
       end
 
       # Get the current limit of the
@@ -459,7 +458,7 @@ module Magic
     magic_param(:max_elf_shnum,
       32768,
       "Controls how many ELF sections will be processed.")
-    # magic_param :max_regex, 8192,"" # does not work; no effect
+    magic_param :max_regex, 8192,"" # does not work; no effect
     magic_param :max_bytes, 1048576, ""
   end
 end

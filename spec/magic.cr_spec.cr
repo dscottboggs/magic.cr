@@ -97,13 +97,13 @@ describe Magic do
       end
     end
     # PARAM_REGEX_MAX cannot be changed on my system.
-    # describe(".max_regex=") do
-    #   it("sets a value") do
-    #     chkr = Magic::TypeChecker.new
-    #     chkr.max_regex = 12345
-    #     chkr.max_regex.should(eq(12345))
-    #   end
-    # end
+    describe(".max_regex=") do
+      pending "sets a value" do
+        chkr = Magic::TypeChecker.new
+        chkr.max_regex = 12345
+        chkr.max_regex.should(eq(12345))
+      end
+    end
     describe(".max_bytes=") do
       it("sets a value") do
         chkr = Magic::TypeChecker.new
@@ -181,12 +181,6 @@ describe Magic do
 
       describe "#get_mime_type" do
         Magic::TypeChecker.new.get_mime_type.of("/tmp").should eq "inode/directory"
-      end
-      describe "#get_mime_type_and_encoding" do
-        Magic::TypeChecker
-          .new
-          .get_mime_type_and_encoding
-          .of("/tmp").should eq "inode/directory; charset=binary"
       end
       describe "#reset_options" do
         chkr = Magic::TypeChecker.new

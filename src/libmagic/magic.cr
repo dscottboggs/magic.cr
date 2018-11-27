@@ -164,11 +164,17 @@ b\31transp_compression\0\
     # ```
     #       Parameter              Type      Default
     #       PARAM_INDIR_MAX        size_t    15
+    #       how many levels of recursion will be followed for indirect magic entries
     #       PARAM_NAME_MAX         size_t    30
+    #       the maximum number of calls for name/use
     #       PARAM_ELF_NOTES_MAX    size_t    256
+    #       how many ELF notes will be processed.
     #       PARAM_ELF_PHNUM_MAX    size_t    128
+    #       how many ELF program sections will be processed.
     #       PARAM_ELF_SHNUM_MAX    size_t    32768
+    #       how many ELF sections will be processed.
     #       PARAM_REGEX_MAX        size_t    8192
+    #       how many levels of recursion will be followed for for name/use calls.
     #       PARAM_BYTES_MAX        size_t    1048576
     # ```
     fun get_param = magic_getparam(MagicT, Int, Int32*) : Int
