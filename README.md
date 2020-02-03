@@ -8,7 +8,7 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  magic.cr:
+  magic:
     github: dscottboggs/magic.cr
 ```
 
@@ -17,7 +17,7 @@ dependencies:
 [API documentation](https://dscottboggs.github.io/magic.cr/index.html)
 
 ```crystal
-require "magic.cr"
+require "magic"
 require "http" # for the HTTP example
 
 TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
