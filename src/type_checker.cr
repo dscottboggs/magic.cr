@@ -3,13 +3,13 @@
 require "./libmagic/magic"
 
 module Magic
-  class Errno < ::Errno
-    def initialize(msg, checker)
-      msg = <<-ERR
-        #{msg}: libmagic says "#{(err = LibMagic.error(checker)) && String.new(err)}"
-      ERR
-      super msg, Errno.value
-    end
+  class LibMagicError < RuntimeError
+  end
+
+  class NullPointerError < RuntimeError
+  end
+
+  class ReadError < IO::Error
   end
 
   # A TypeChecker checks the Magic database on the system for a given file,
@@ -69,9 +69,9 @@ module Magic
                    limit_settings : Hash(Limit, Int32)? = nil)
       @checker = LibMagic.open @options
       if @checker.null?
-        raise ::Errno.new(
+        raise NullPointerError.from_errno(
           "opening the magic cookie (#{LibMagic.error(@checker)})",
-          ::Errno.value,
+          Errno.value,
         )
       end
       @new_options = @options
@@ -96,7 +96,7 @@ module Magic
       return if chkr === @checker
       LibMagic.close @checker
       @checker = chkr
-      raise error("opening the magic cookie") if @checker.null?
+      raise NullPointerError.new "opening the magic cookie" if @checker.null?
       LibMagic.open @checker
       LibMagic.load @checker, @db_files
       @checker
@@ -135,7 +135,10 @@ module Magic
     end
 
     def error(msg)
-      Errno.new msg, @checker
+      msg = <<-ERR
+        #{msg}: libmagic says "#{(err = LibMagic.error(checker)) && String.new(err)}"
+      ERR
+      LibMagicError.new msg
     end
 
     # Get the filetype "of" the given file, passing `opts` to `libmagic(2)`.
@@ -193,9 +196,9 @@ module Magic
       if (some_bytes.nil? || some_bytes.empty?)
         this.read (some_bytes = Bytes.new(32))
       end
-      raise ::Errno.new "reading bytes, got #{some_bytes.inspect}" if some_bytes.nil? || some_bytes.empty?
+      raise ReadError.new "reading bytes, got #{some_bytes.inspect}" if some_bytes.nil? || some_bytes.empty?
       ptr = LibMagic.buffer(checker, some_bytes, some_bytes.size)
-      String.new ptr || raise error "checking filetype of given byte sequence"
+      String.new ptr || raise NullPointerError.new "checking filetype of given byte sequence"
     end
 
     # same as `#of()`
