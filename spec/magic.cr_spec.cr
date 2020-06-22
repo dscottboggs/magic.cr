@@ -2,8 +2,8 @@ require "./spec_helper"
 require "http"
 
 TestPictureFile = "test_data/libworks.jpg"
-TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
-JpegExtensions = Set{"jpeg", "jpg", "jpe", "jfif"}
+TestImageURL    = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
+JpegExtensions  = Set{"jpeg", "jpg", "jpe", "jfif"}
 
 describe Magic do
   describe "Magic.filetype.of()" do
@@ -131,7 +131,7 @@ describe Magic do
       describe "#all_types" do
         it "works" do
           test_sh_file do |file|
-            Magic::TypeChecker.new.all_types.of(file).starts_with?("ASCII text\n-").should be_true
+            Magic::TypeChecker.new.all_types.of(file).starts_with?("ASCII text").should be_true
           end
         end
       end
@@ -192,13 +192,13 @@ describe Magic do
 end
 
 def test_sh_file
-  file = File.tempfile "test.sh" do |file|
-    File.write file.path, <<-EOF
+  file = File.tempfile "test.sh" do |tempfile|
+    File.write tempfile.path, <<-EOF
       #!/bin/sh
       # this is definitely a shell script.
       echo "don't acutally run this, it's just an example."
     EOF
-    yield file
+    yield tempfile
   end
   file.delete
 end

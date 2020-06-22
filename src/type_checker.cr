@@ -3,10 +3,18 @@
 require "./libmagic/magic"
 
 module Magic
-  class LibMagicError < RuntimeError
+  # An error encountered while communicating with the C libmagic API.
+  abstract class Error < Exception
+    include SystemError
   end
 
-  class NullPointerError < RuntimeError
+  # An error which specifically was returned by a libmagic function.
+  class LibMagicError < Error
+  end
+
+  # An error raised when a null pointer was received in response to some
+  # allocation.
+  class NullPointerError < Error
   end
 
   class ReadError < IO::Error
@@ -53,7 +61,7 @@ module Magic
     # database files to read from
     getter db_files : Set(String)?
 
-    Integer        = Int8 | Int16 | Int32 | Int64 | UInt8 | UInt16 | UInt32 | UInt64
+    Integer         = Int8 | Int16 | Int32 | Int64 | UInt8 | UInt16 | UInt32 | UInt64
     DEFAULT_OPTIONS = LibMagic::RAW | LibMagic::ERROR
     # the current options used by the lib
     @options : Int32
@@ -75,12 +83,14 @@ module Magic
         )
       end
       @new_options = @options
-      if database_files
-        db_files = database_files.not_nil!
+      if dbf = database_files
+        @db_files = dbf
       else
         LibMagic.load @checker, nil
       end
-      limits = limit_settings
+      limit_settings.try &.each do |behavior, value|
+        limit behavior, to: value
+      end
     end
 
     # :nodoc:
@@ -115,9 +125,8 @@ module Magic
     # `/usr/share/misc/magic`. Example:
     # ```
     # check_ft = Magic::TypeChecker.new
-    # check_ft.database = [ "/path/to/file", File.join("other", "path")]
-    # ...
-    # check_ft.database = :default
+    # check_ft.database = ["/path/to/file", File.join("other", "path")]
+    # ...check_ft.database = :default
     # ```
     def db_files=(files : IterableOfStrings)
       LibMagic.load checker, (@db_files = files.to_set).join(":")
@@ -143,7 +152,7 @@ module Magic
 
     # Get the filetype "of" the given file, passing `opts` to `libmagic(2)`.
     def of?(filepath, opts)
-      options = opts
+      self.options = opts
       of filepath
     end
 
@@ -205,6 +214,7 @@ module Magic
     def for(this)
       of this
     end
+
     # like `#of()` and `#for()` but returns a Set of valid extensions, rather
     # than a single string.
     def extensions(this)
@@ -214,7 +224,7 @@ module Magic
       else
         get_extensions
         result = of(this).split "/"
-        get_extensions = false
+        self.get_extensions = false
       end
       result.to_set
     end
@@ -461,7 +471,7 @@ module Magic
     magic_param(:max_elf_shnum,
       32768,
       "Controls how many ELF sections will be processed.")
-    magic_param :max_regex, 8192,"" # does not work; no effect
+    magic_param :max_regex, 8192, "" # does not work; no effect
     magic_param :max_bytes, 1048576, ""
   end
 end

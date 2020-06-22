@@ -3,7 +3,7 @@ require "benchmark"
 
 test_data = IO::Memory.new
 File.open "#{Dir.current}/test_data/libworks.jpg" do |td_file|
- IO.copy td_file, test_data
+  IO.copy td_file, test_data
 end
 
 Benchmark.ips do |bench|
