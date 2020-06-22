@@ -20,5 +20,4 @@ module Magic
   def mime_type
     (@@checker ||= Magic::TypeChecker.new).reset_options.get_mime_type
   end
-
 end

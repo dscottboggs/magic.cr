@@ -2,8 +2,8 @@ require "./spec_helper"
 require "http"
 
 TestPictureFile = "test_data/libworks.jpg"
-TestImageURL = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
-JpegExtensions = Set{"jpeg", "jpg", "jpe", "jfif"}
+TestImageURL    = "https://upload.wikimedia.org/wikipedia/commons/d/db/Patern_test.jpg"
+JpegExtensions  = Set{"jpeg", "jpg", "jpe", "jfif"}
 
 describe Magic do
   describe "Magic.filetype.of()" do
@@ -30,13 +30,16 @@ describe Magic do
     end
   end
 
-  describe "Magic.mime_type.follow_symlinks.of(a symlink)" do
-    symlink_path = "/dev/disk/by-uuid/#{Dir.open("/dev/disk/by-uuid").children.first}"
-    it "works as expected" do
-      test_result = Magic.mime_type.follow_symlinks.of symlink_path
-      test_result.should eq "inode/blockdevice"
+  {% unless flag? :drone_ci_test_environment %}
+    # Drone CI environment does not have this file
+    describe "Magic.mime_type.follow_symlinks.of(a symlink)" do
+      symlink_path = "/dev/disk/by-uuid/#{Dir.children("/dev/disk/by-uuid").first}"
+      it "works as expected" do
+        test_result = Magic.mime_type.follow_symlinks.of symlink_path
+        test_result.should eq "inode/blockdevice"
+      end
     end
-  end
+  {% end %}
 
   describe "Magic::LibMagic" do
     it "works" do
@@ -131,7 +134,7 @@ describe Magic do
       describe "#all_types" do
         it "works" do
           test_sh_file do |file|
-            Magic::TypeChecker.new.all_types.of(file).starts_with?("ASCII text\n-").should be_true
+            Magic::TypeChecker.new.all_types.of(file).starts_with?("ASCII text").should be_true
           end
         end
       end
@@ -192,13 +195,13 @@ describe Magic do
 end
 
 def test_sh_file
-  file = File.tempfile "test.sh" do |file|
-    File.write file.path, <<-EOF
+  file = File.tempfile "test.sh" do |tempfile|
+    File.write tempfile.path, <<-EOF
       #!/bin/sh
       # this is definitely a shell script.
       echo "don't acutally run this, it's just an example."
     EOF
-    yield file
+    yield tempfile
   end
   file.delete
 end

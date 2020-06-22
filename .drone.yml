@@ -1,0 +1,37 @@
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: formatting check
+  image: crystallang/crystal:latest-alpine
+  commands:
+  - crystal tool format --check
+- name: build
+  image: crystallang/crystal:latest-alpine
+  volumes:
+  - name: cache
+    path: /root/.cache
+  commands:
+  - apk add curl
+  - shards install
+  - shards build --static
+- name: lint
+  image: crystallang/crystal:latest-alpine
+  commands: [ bin/ameba ]
+- name: test
+  image: crystallang/crystal
+  volumes:
+  - name: cache
+    path: /root/.cache
+  commands:
+  - apt update
+  - apt install libmagic-dev
+  - crystal spec -Ddrone_ci_test_environment --warnings all --error-on-warnings
+
+volumes:
+- name: cache
+  temp: {}
