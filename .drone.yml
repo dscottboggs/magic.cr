@@ -30,7 +30,7 @@ steps:
   commands:
   - apt update
   - apt install libmagic-dev
-  - crystal spec --warnings all --error-on-warnings
+  - crystal spec -Ddrone_ci_test_environment --warnings all --error-on-warnings
 
 volumes:
 - name: cache

@@ -30,13 +30,16 @@ describe Magic do
     end
   end
 
-  describe "Magic.mime_type.follow_symlinks.of(a symlink)" do
-    symlink_path = "/dev/disk/by-uuid/#{Dir.open("/dev/disk/by-uuid").children.first}"
-    it "works as expected" do
-      test_result = Magic.mime_type.follow_symlinks.of symlink_path
-      test_result.should eq "inode/blockdevice"
+  {% unless flag? :drone_ci_test_environment %}
+    # Drone CI environment does not have this file
+    describe "Magic.mime_type.follow_symlinks.of(a symlink)" do
+      symlink_path = "/dev/disk/by-uuid/#{Dir.children("/dev/disk/by-uuid").first}"
+      it "works as expected" do
+        test_result = Magic.mime_type.follow_symlinks.of symlink_path
+        test_result.should eq "inode/blockdevice"
+      end
     end
-  end
+  {% end %}
 
   describe "Magic::LibMagic" do
     it "works" do
