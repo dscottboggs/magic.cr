@@ -23,12 +23,13 @@ steps:
   image: crystallang/crystal:latest-alpine
   commands: [ bin/ameba ]
 - name: test
-  image: crystallang/crystal:latest-alpine
+  image: crystallang/crystal
   volumes:
   - name: cache
     path: /root/.cache
   commands:
-  commands:
+  - apt update
+  - apt install libmagic-dev
   - crystal spec --warnings all --error-on-warnings
 
 volumes:
