@@ -1,5 +1,5 @@
+[![Build Status](https://cloud.drone.io/api/badges/dscottboggs/magic.cr/status.svg)](https://cloud.drone.io/dscottboggs/magic.cr)
 # magic.cr
-
 Bindings to `libmagic(2)` for Crystal.
 
 ## Installation
