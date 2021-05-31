@@ -31,36 +31,46 @@ module Magic
 
   @[Link(ldflags: "-lmagic")]
   lib LibMagic
-    # No special handling.
-    NONE = 0x0000000
-    # Print debugging messages to stderr.
-    DEBUG = 0x0000001
-    # TODO: more docs
-    SYMLINK           = 0x0000002
-    COMPRESS          = 0x0000004
-    DEVICES           = 0x0000008
-    MIME_TYPE         = 0x0000010
-    CONTINUE          = 0x0000020
-    CHECK             = 0x0000040
-    PRESERVE_ATIME    = 0x0000080
-    RAW               = 0x0000100
-    ERROR             = 0x0000200
-    MIME_ENCODING     = 0x0000400
-    MIME              = MIME_TYPE | MIME_ENCODING
-    APPLE             = 0x0000800
-    EXTENSION         = 0x1000000
-    COMPRESS_TRANSP   = 0x2000000
-    NODESC            = MAGIC_EXTENSION | MAGIC_MIME | MAGIC_APPLE
-    NO_CHECK_COMPRESS = 0x0001000
-    NO_CHECK_TAR      = 0x0002000
-    NO_CHECK_SOFT     = 0x0004000
-    NO_CHECK_APPTYPE  = 0x0008000
-    NO_CHECK_ELF      = 0x0010000
-    NO_CHECK_TEXT     = 0x0020000
-    NO_CHECK_CDF      = 0x0040000
-    NO_CHECK_TOKENS   = 0x0100000
-    NO_CHECK_ENCODING = 0x0200000
-    NO_CHECK_BUILTIN  = MAGIC_NO_CHECK_COMPRESS | MAGIC_NO_CHECK_TAR | MAGIC_NO_CHECK_APPTYPE | MAGIC_NO_CHECK_ELF | MAGIC_NO_CHECK_TEXT | MAGIC_NO_CHECK_CDF | MAGIC_NO_CHECK_TOKENS | MAGIC_NO_CHECK_ENCODING | 0 \
+    enum Options : Int32
+      # No special handling.
+      NONE = 0x0000000
+      # Print debugging messages to stderr.
+      DEBUG = 0x0000001
+      # TODO: more docs
+      SYMLINK           = 0x0000002
+      COMPRESS          = 0x0000004
+      DEVICES           = 0x0000008
+      MIME_TYPE         = 0x0000010
+      CONTINUE          = 0x0000020
+      CHECK             = 0x0000040
+      PRESERVE_ATIME    = 0x0000080
+      RAW               = 0x0000100
+      ERROR             = 0x0000200
+      MIME_ENCODING     = 0x0000400
+      MIME              = MIME_TYPE | MIME_ENCODING
+      APPLE             = 0x0000800
+      EXTENSION         = 0x1000000
+      COMPRESS_TRANSP   = 0x2000000
+      NODESC            = EXTENSION | MIME | APPLE
+      NO_CHECK_COMPRESS = 0x0001000
+      NO_CHECK_TAR      = 0x0002000
+      NO_CHECK_SOFT     = 0x0004000
+      NO_CHECK_APPTYPE  = 0x0008000
+      NO_CHECK_ELF      = 0x0010000
+      NO_CHECK_TEXT     = 0x0020000
+      NO_CHECK_CDF      = 0x0040000
+      NO_CHECK_TOKENS   = 0x0100000
+      NO_CHECK_ENCODING = 0x0200000
+      NO_CHECK_BUILTIN  = NO_CHECK_COMPRESS | NO_CHECK_TAR | NO_CHECK_APPTYPE | NO_CHECK_ELF | NO_CHECK_TEXT | NO_CHECK_CDF | NO_CHECK_TOKENS | NO_CHECK_ENCODING | 0 \
+
+      NO_CHECK_ASCII   = NO_CHECK_TEXT
+      NO_CHECK_FORTRAN = 0x000000
+      NO_CHECK_TROFF   = 0x000000
+
+      def ==(other : Int32)
+        value == other
+      end
+    end
 
     SNPRINTB = "\177\020\
 b\0debug\0\
@@ -90,17 +100,16 @@ b\27no_check_reserved2\0\
 b\30extension\0\
 b\31transp_compression\0\
 "
-    NO_CHECK_ASCII      = MAGIC_NO_CHECK_TEXT
-    NO_CHECK_FORTRAN    = 0x000000
-    NO_CHECK_TROFF      = 0x000000
-    VERSION             =      532
-    PARAM_INDIR_MAX     =      0o0
-    PARAM_NAME_MAX      =        1
-    PARAM_ELF_PHNUM_MAX =        2
-    PARAM_ELF_SHNUM_MAX =        3
-    PARAM_ELF_NOTES_MAX =        4
-    PARAM_REGEX_MAX     =        5
-    PARAM_BYTES_MAX     =        6
+    VERSION = 532
+    enum Param
+      MAX_INDIRECTION
+      MAX_NAME
+      MAX_ELF_PHNUM
+      MAX_ELF_SHNUM
+      MAX_ELF_NOTES
+      MAX_REGEX
+      MAX_BYTES
+    end
     # type MagicSet = Object
     alias MagicT = MagicSet*
     # returns a magic cookie on success and NULL on failure setting errno to
