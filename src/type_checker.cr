@@ -1,6 +1,7 @@
 # Crystal bindings for LibMagic (aka the `file` command) which lets you quickly
 # and easily discover the filetype of a given file or bytestream.
 require "./libmagic/magic"
+require "./core_ext"
 
 module Magic
   # An error encountered while communicating with the C libmagic API.
@@ -62,12 +63,12 @@ module Magic
     getter db_files : Set(String)?
 
     Integer         = Int8 | Int16 | Int32 | Int64 | UInt8 | UInt16 | UInt32 | UInt64
-    DEFAULT_OPTIONS = LibMagic::RAW | LibMagic::ERROR
+    DEFAULT_OPTIONS = LibMagic::Options::RAW | LibMagic::Options::ERROR
     # the current options used by the lib
-    @options : Int32
+    @options : LibMagic::Options
     # new options that have been set but may not have been passed to the
     # lib yet.
-    @new_options : Int32
+    @new_options : LibMagic::Options
     @checker : LibMagic::MagicT
 
     alias IterableOfStrings = Indexable(String) | Set(String)
@@ -84,7 +85,7 @@ module Magic
       end
       @new_options = @options
       if dbf = database_files
-        @db_files = dbf
+        LibMagic.load @checker, (@db_files = dbf.to_set).join ':'
       else
         LibMagic.load @checker, nil
       end
@@ -233,7 +234,11 @@ module Magic
     # debug_output, follow_symlinks, etc.). Equivalent to calling C's
     # `magic_setflags()` with the given integer. See `libmagic(2)` for more
     # details. Appropriate values can be bitwise-or'd from LibMagic's constants.
-    def options=(@new_options)
+    def options=(@new_options : LibMagic::Options)
+    end
+
+    def options=(options : Int32)
+      @new_options = LibMagic::Options.new options
     end
 
     # The current value of the magic flags. Equivalent to calling C's
@@ -257,12 +262,12 @@ module Magic
     # use the MAGIC_NONE option (the default for libmagic) instead of the
     # default for magic.cr
     def libmagic_defaults
-      @new_options = LibMagic::NONE
+      @new_options = LibMagic::Options::NONE
       self
     end
 
     def libmagic_defaults?
-      @new_options == LibMagic::NONE
+      @new_options == LibMagic::Options::NONE
     end
 
     private def set(flag)
@@ -325,7 +330,7 @@ module Magic
 
     inverse_bitflag_option(
       :escape_unprintable,
-      LibMagic::RAW,
+      LibMagic::Options::RAW,
       "escapes non-printable bytes as their `0oOOO` octal numeric forms.\
       By default crystal handles this in cases where it's important (in\
       `puts` for example), so by default strings contain the raw values for\
@@ -333,81 +338,90 @@ module Magic
     )
     inverse_bitflag_option(
       :return_error_as_text,
-      LibMagic::ERROR,
-      "Return errors while trying to open files and follow symlinks in the\
-      filetype text rather than raising an error. This differs from the \
-      `libmagic` default, because it makes more sense to handle the errors in \
-      Crystal in most cases than to output them as text."
+      LibMagic::Options::ERROR,
+      "Errors may occur while trying to open files and follow symlinks. Turning \
+      this option on returns the error message in the filetype text rather than \
+      raising an error. This differs from the `libmagic` default, because it \
+      makes more sense to handle the errors in Crystal in most cases than to \
+      output them as text."
     )
     bitflag_option(
       :debug_output,
-      LibMagic::DEBUG,
+      LibMagic::Options::DEBUG,
       :"Have `libmagic(2)` print debugging messages to stderr.")
     bitflag_option(
       :follow_symlinks,
-      LibMagic::SYMLINK,
+      LibMagic::Options::SYMLINK,
       :"If the file queried is a symlink, follow it.")
     bitflag_option(
       :look_into_compressed_files,
-      LibMagic::COMPRESS,
+      LibMagic::Options::COMPRESS,
       :"If the file is compressed, unpack it and look at the contents.")
     bitflag_option(
       :check_device,
-      LibMagic::DEVICES,
+      LibMagic::Options::DEVICES,
       "If the file is a block or character special device, then\
        open the device and try to look in its contents.")
     bitflag_option(
       :get_mime_type,
-      LibMagic::MIME_TYPE,
+      LibMagic::Options::MIME_TYPE,
       :"Return a MIME type string, instead of a textual description.")
     bitflag_option(
       :get_mime_encoding,
-      LibMagic::MIME_ENCODING,
+      LibMagic::Options::MIME_ENCODING,
       :"Return a MIME encoding, instead of a textual description.")
     bitflag_option(
       :get_mime,
-      LibMagic::MIME,
+      LibMagic::Options::MIME,
       :"sets both `get_mime_type` and `get_mime_encoding`")
     bitflag_option(
       :all_types,
-      LibMagic::CONTINUE,
+      LibMagic::Options::CONTINUE,
       :"Return all matches, not just the first.")
     bitflag_option(
       :check_db,
-      LibMagic::CHECK,
+      LibMagic::Options::CHECK,
       "Check the magic database for consistency and print\
        warnings to stderr, while checking a file.")
     bitflag_option(
       :try_to_preserve_access_time,
-      LibMagic::PRESERVE_ATIME,
+      LibMagic::Options::PRESERVE_ATIME,
       "On systems that support utime(3) or utimes(2), attempt to\
        preserve the access time of files analysed.")
     bitflag_option(
       :preserve_atime,
-      LibMagic::PRESERVE_ATIME,
+      LibMagic::Options::PRESERVE_ATIME,
       :":ditto:")
     bitflag_option(
       :apple,
-      LibMagic::APPLE,
+      LibMagic::Options::APPLE,
       :"Return the Apple creator and type.")
     bitflag_option(
       :get_extensions,
-      LibMagic::EXTENSION,
+      LibMagic::Options::EXTENSION,
       :"Makes #of() return a slash-separated list of extensions for this file type.")
     bitflag_option(
       :no_compression_info,
-      LibMagic::COMPRESS_TRANSP,
+      LibMagic::Options::COMPRESS_TRANSP,
       :"Don't report on compression, only report about the uncompressed data.")
 
     # set the various limits related to the magic library
-    private def limit(behavior : Int32, to : Int32)
+    private def limit(behavior : LibMagic::Param, to : Int32)
       LibMagic.set_param @checker, behavior, pointerof(to)
     end
 
-    # limit(LibMagic::PARAM_{SOMETHING}_MAX) do |current|
-    #   current + new_value
+    # Set a new limit based on the old one. Return nil from the block to avoid
+    # updating the value. For example:
+    #
+    # ```
+    # limit LibMagic::PARAM_{SOMETHING}_MAX do |current|
+    #   nv = current + new_value
+    #   if nv < some_max_value
+    #     nv
+    #   end
     # end
-    private def limit(behavior : Int32)
+    # ```
+    private def limit(behavior : LibMagic::Param, & : Proc(Int32, Int32?))
       LibMagic.param @checker, behavior, out current
       if new_value = yield current
         LibMagic.set_param @checker, behavior, new_value
@@ -421,7 +435,7 @@ module Magic
       # it the constant PARAM_{{method_name.id[4..-1].upcase}}_MAX and the
       # given value. See `libmagic(2)`. {{extra_docs.id}}
       def {{method_name.id}}=(value : Int32)
-        limit LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX, to: value
+        limit LibMagic::Param::{{ method_name.id.upcase }}, to: value
         {{method_name.id}}
       end
       # Yields the current value of the {{method_name.id}} to the block, then
@@ -435,7 +449,7 @@ module Magic
       # end
       # ```
       def {{method_name.id}}
-        limit LibMagic::PARAM_{{ method_name.id[4..-1].upcase }}_MAX do |curr|
+        limit LibMagic::Param::{{ method_name.id.upcase }} do |curr|
           yield curr
         end
         {{method_name.id}}
@@ -449,16 +463,16 @@ module Magic
       # {{extra_docs.id}}
       def {{method_name.id}}
         LibMagic.get_param(@checker,
-                           LibMagic::PARAM_{{method_name.id[4..-1].upcase}}_MAX,
+                           LibMagic::Param::{{method_name.id.upcase}},
                            out value)
         value
       end
     end
 
-    magic_param(:max_indir,
+    magic_param(:max_indirection,
       15,
       "Controls how many levels of recursion will be followed for\
-                 indirect magic entries.")
+       indirect magic entries.")
     magic_param(:max_name,
       30,
       "Controls the maximum number of calls for name/use.")

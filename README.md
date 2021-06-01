@@ -53,7 +53,11 @@ For more information and some examples, see `Magic::TypeChecker` and
 
 ## Development
 
-Create an issue if you think anything needs revision!
+Create an issue or pull request to discuss any suggestions.
+
+### Known bugs (help wanted)
+ - `Magic::TypeChecker.max_regex=()` does not actually do *anything*. The value
+   remains constant regardless of the value passed to this method.
 
 ## Contributing
 

@@ -43,11 +43,11 @@ describe Magic do
 
   describe "Magic::LibMagic" do
     it "works" do
-      magic_cookie = Magic::LibMagic.open Magic::LibMagic::NONE
+      magic_cookie = Magic::LibMagic.open Magic::LibMagic::Options::NONE
       Magic::LibMagic.close magic_cookie
     end
     it "knows the mime-type of a directory" do
-      magic_cookie = Magic::LibMagic.open Magic::LibMagic::MIME_TYPE
+      magic_cookie = Magic::LibMagic.open Magic::LibMagic::Options::MIME_TYPE
       Magic::LibMagic.load magic_cookie, nil
       String.new(Magic::LibMagic.file(magic_cookie, ".")).should eq "inode/directory"
     end
@@ -59,59 +59,59 @@ describe Magic do
         chkr = Magic::TypeChecker.new
         chkr.options.should eq Magic::TypeChecker::DEFAULT_OPTIONS
         chkr.options = 1
-        chkr.options.should eq Magic::LibMagic::DEBUG
+        chkr.options.should eq Magic::LibMagic::Options::DEBUG
       end
     end
 
     # options
-    describe(".max_indir=") do
-      it("sets a value") do
+    describe ".max_indirection=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
-        chkr.max_indir = 12345
-        chkr.max_indir.should(eq(12345))
+        chkr.max_indirection = 12345
+        chkr.max_indirection.should eq 12345
       end
     end
-    describe(".max_name=") do
-      it("sets a value") do
+    describe ".max_name=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_name = 12345
-        chkr.max_name.should(eq(12345))
+        chkr.max_name.should eq 12345
       end
     end
-    describe(".max_elf_phnum=") do
-      it("sets a value") do
+    describe ".max_elf_phnum=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_elf_phnum = 12345
-        chkr.max_elf_phnum.should(eq(12345))
+        chkr.max_elf_phnum.should eq 12345
       end
     end
-    describe(".max_elf_notes=") do
-      it("sets a value") do
+    describe ".max_elf_notes=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_elf_notes = 12345
-        chkr.max_elf_notes.should(eq(12345))
+        chkr.max_elf_notes.should eq 12345
       end
     end
-    describe(".max_elf_shnum=") do
-      it("sets a value") do
+    describe ".max_elf_shnum=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_elf_shnum = 12345
-        chkr.max_elf_shnum.should(eq(12345))
+        chkr.max_elf_shnum.should eq 12345
       end
     end
     # PARAM_REGEX_MAX cannot be changed on my system.
-    describe(".max_regex=") do
+    describe ".max_regex=" do
       pending "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_regex = 12345
-        chkr.max_regex.should(eq(12345))
+        chkr.max_regex.should eq 12345
       end
     end
-    describe(".max_bytes=") do
-      it("sets a value") do
+    describe ".max_bytes=" do
+      it "sets a value" do
         chkr = Magic::TypeChecker.new
         chkr.max_bytes = 12345
-        chkr.max_bytes.should(eq(12345))
+        chkr.max_bytes.should eq 12345
       end
     end
 
@@ -187,7 +187,7 @@ describe Magic do
       end
       describe "#reset_options" do
         chkr = Magic::TypeChecker.new
-        chkr.debug_output.options.should eq (Magic::TypeChecker::DEFAULT_OPTIONS | Magic::LibMagic::DEBUG)
+        chkr.debug_output.options.should eq (Magic::TypeChecker::DEFAULT_OPTIONS | Magic::LibMagic::Options::DEBUG)
         chkr.reset_options.options.should eq Magic::TypeChecker::DEFAULT_OPTIONS
       end
     end
